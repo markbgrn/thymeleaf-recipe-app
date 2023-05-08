@@ -20,8 +20,8 @@ public class UserModel {
     private Long id;
     private String email;
     private String password;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     @Column(name = "verification_id")
     private String verificationId;
     @Column(name = "is_verified")
