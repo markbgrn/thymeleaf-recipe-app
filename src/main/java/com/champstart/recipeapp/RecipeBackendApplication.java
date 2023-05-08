@@ -1,4 +1,4 @@
-package com.champstart.recipe;
+package com.champstart.recipeapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
