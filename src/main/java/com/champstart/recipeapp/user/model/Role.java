@@ -19,5 +19,5 @@ public class Role {
     private Long id;
     private String name;
     @OneToOne(mappedBy = "roles")
-    private List<UserModel> users = new ArrayList<>();
+    private UserModel userModel;
 }
