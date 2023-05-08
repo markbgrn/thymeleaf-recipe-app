@@ -1,3 +1,4 @@
+### Recipe app using Thymeleaf
 # Oracle Database Setup
 ```
 ALTER SESSION SET "_ORACLE_SCRIPT"=true;
