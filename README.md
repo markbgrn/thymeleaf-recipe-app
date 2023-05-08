@@ -1,5 +1,5 @@
-### Recipe app using Thymeleaf
-# Oracle Database Setup
+## Recipe app using Thymeleaf
+### Oracle Database Setup
 ```
 ALTER SESSION SET "_ORACLE_SCRIPT"=true;
 CREATE USER recipe_db IDENTIFIED BY recipedb;
