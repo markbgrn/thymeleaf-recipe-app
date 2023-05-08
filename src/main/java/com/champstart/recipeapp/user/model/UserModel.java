@@ -22,9 +22,7 @@ public class UserModel {
     private String password;
     private String firstName;
     private String lastName;
-    @Column(name = "verification_id")
     private String verificationId;
-    @Column(name = "is_verified")
     private Boolean isVerified;
     @CreationTimestamp
     private LocalDateTime createdOn;
