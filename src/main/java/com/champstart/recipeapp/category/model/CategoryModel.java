@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.*;
+import static javax.persistence.GenerationType.*;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table
 public class CategoryModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String categoryName;
     @OneToOne(fetch = LAZY)
