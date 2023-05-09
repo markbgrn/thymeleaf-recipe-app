@@ -19,23 +19,23 @@ import static javax.persistence.GenerationType.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comment")
+@Table(name = "comments")
 public class CommentModel {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
-    @Column(name = "comment", length = 4000, nullable = false)
+    @Column(name = "recipe_comment", length = 4000, nullable = false)
     private String comment;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserModel userModel;
+    private UserModel users;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id", nullable = false)
-    private RecipeModel recipeModel;
+    private RecipeModel recipe;
 
     // Add profile picture association here
 
@@ -54,9 +54,9 @@ public class CommentModel {
     // Get the first name from the associated user
     @PostLoad
     private void populateName() {
-        if (userModel != null) {
-            firstName = userModel.getFirstName();
-            lastName = userModel.getLastName();
+        if (users != null) {
+            firstName = users.getFirstName();
+            lastName = users.getLastName();
         }
     }
 }

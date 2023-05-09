@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table
+@Table(name = "ingredients")
 public class IngredientModel {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -24,5 +24,5 @@ public class IngredientModel {
     private String recipeIngredients;
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id")
-    private RecipeModel recipeModel;
+    private RecipeModel recipe;
 }

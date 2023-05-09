@@ -13,6 +13,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -23,19 +24,20 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table
+@Table(name = "recipes")
 public class RecipeModel {
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "recipe_id")
     private Long id;
     private String recipeTitle;
     private String recipeDescription;
-    @OneToOne(mappedBy = "recipeModel", cascade = ALL, fetch = LAZY, optional = false)
+    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
     private CategoryModel categoryModel;
-    @OneToOne(mappedBy = "recipeModel", cascade = ALL, fetch = LAZY, optional = false)
+    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
     private IngredientModel ingredientModel;
-    @OneToOne(mappedBy = "recipeModel", cascade = ALL, fetch = LAZY, optional = false)
+    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
     private ProcedureModel procedureModel;
-    @OneToMany(mappedBy = "recipeModel")
-    private List<CommentModel> comments= new ArrayList<>();
+    @OneToMany(mappedBy = "recipe")
+    private List<CommentModel> comments;
 }

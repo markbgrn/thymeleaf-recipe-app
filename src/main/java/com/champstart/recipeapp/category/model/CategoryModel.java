@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table
+@Table(name = "categories")
 public class CategoryModel {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -24,5 +24,5 @@ public class CategoryModel {
     private String categoryName;
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id")
-    private RecipeModel recipeModel;
+    private RecipeModel recipe;
 }

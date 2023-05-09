@@ -39,6 +39,6 @@ public class UserModel {
     )
     private List<Role> roles = new ArrayList<>();
     @OneToMany(mappedBy = "users")
-    private List<CommentModel> comments = new ArrayList<>();
+    private List<CommentModel> comments;
 
 }
