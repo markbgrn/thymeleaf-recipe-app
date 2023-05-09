@@ -28,4 +28,5 @@ public class UserModel {
     private LocalDateTime createdOn;
     @UpdateTimestamp
     private LocalDateTime updatedOn;
+
 }
