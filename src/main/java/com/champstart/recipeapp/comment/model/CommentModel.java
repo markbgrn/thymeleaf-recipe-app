@@ -42,6 +42,9 @@ public class CommentModel {
     @Transient
     private String firstName;
 
+    @Transient
+    private String lastName;
+
     @CreationTimestamp
     private LocalDateTime createdOn;
 
@@ -50,9 +53,10 @@ public class CommentModel {
 
     // Get the first name from the associated user
     @PostLoad
-    private void populateFirstName() {
+    private void populateName() {
         if (userModel != null) {
             firstName = userModel.getFirstName();
+            lastName = userModel.getLastName();
         }
     }
 }
