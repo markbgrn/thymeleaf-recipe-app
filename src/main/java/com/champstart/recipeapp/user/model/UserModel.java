@@ -31,7 +31,6 @@ public class UserModel {
     private LocalDateTime createdOn;
     @UpdateTimestamp
     private LocalDateTime updatedOn;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
@@ -39,9 +38,7 @@ public class UserModel {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
-
     @OneToMany(mappedBy = "users")
     private List<CommentModel> comments = new ArrayList<>();
-
 
 }
