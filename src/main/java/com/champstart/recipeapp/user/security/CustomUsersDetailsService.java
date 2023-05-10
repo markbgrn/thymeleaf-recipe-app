@@ -2,7 +2,7 @@ package com.champstart.recipeapp.user.security;
 
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.UserRepository;
-import com.champstart.recipeapp.service.UserService;
+import com.champstart.recipeapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
