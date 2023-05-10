@@ -32,7 +32,7 @@ public class RecipeModel {
     private String recipeTitle;
     private String recipeDescription;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "categories_id",nullable = false)
+    @JoinColumn(name = "category_id",nullable = false)
     private CategoryModel category;
     @OneToMany(mappedBy = "recipe")
     private List<IngredientModel> ingredients;
