@@ -28,16 +28,17 @@ import static javax.persistence.GenerationType.*;
 public class RecipeModel {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "recipe_id")
     private Long id;
     private String recipeTitle;
     private String recipeDescription;
-    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
-    private CategoryModel categoryModel;
-    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
-    private IngredientModel ingredientModel;
-    @OneToOne(mappedBy = "recipe", cascade = ALL, fetch = LAZY, optional = false)
-    private ProcedureModel procedureModel;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "categories_id",nullable = false)
+    private CategoryModel category;
+    @OneToMany(mappedBy = "recipe")
+    private List<IngredientModel> ingredients;
+    @OneToMany(mappedBy = "recipes")
+    private List<ProcedureModel> procedures;
     @OneToMany(mappedBy = "recipe")
     private List<CommentModel> comments;
+
 }

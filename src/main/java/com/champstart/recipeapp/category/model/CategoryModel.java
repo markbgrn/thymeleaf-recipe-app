@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 
@@ -22,7 +24,6 @@ public class CategoryModel {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String categoryName;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "recipe_id")
-    private RecipeModel recipe;
+    @OneToMany(mappedBy = "category")
+    private List<RecipeModel> recipes;
 }

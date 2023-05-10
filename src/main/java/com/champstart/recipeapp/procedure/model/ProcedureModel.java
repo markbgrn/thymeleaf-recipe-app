@@ -22,7 +22,7 @@ public class ProcedureModel {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String recipeProcedure;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "recipe_id")
-    private RecipeModel recipe;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
+    private RecipeModel recipes;
 }
