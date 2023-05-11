@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Create an Account</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <form role="form" method="post" th:action="@{/register}" th:object="${user}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="firstName"
+                                name="firstName"
+                                th:field="*{firstName}"
+                                placeholder="First name"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('firstName')}" class="text-danger" th:errors="*{firstName}"></p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="lastName"
+                                name="lastName"
+                                th:field="*{lastName}"
+                                placeholder="Last name"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('lastName')}" class="text-danger" th:errors="*{lastName}"></p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                th:field="*{email}"
+                                placeholder="Email"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="password">Password</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                th:field="*{password}"
+                                placeholder="Password"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                th:field="*{confirmPassword}"
+                                placeholder="Confirm Password"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('confirmPassword')}" class="text-danger" th:errors="*{confirmPassword}"></p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
