@@ -17,11 +17,6 @@ import static org.mockito.Mockito.*;
 import java.util.Collections;
 
 public class CustomUsersDetailsServiceTest {
-    @Test
-    public void sampleTest(){
-        boolean boolValue = true;
-        assertTrue(boolValue);
-    }
 
     @Mock
     private UserService userService;
