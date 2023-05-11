@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,6 +38,7 @@ class CommentServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        commentService = new CommentServiceImpl(commentRepository, userRepository, recipeRepository);
     }
 
     @Test
@@ -77,6 +80,43 @@ class CommentServiceImplTest {
         assertNotNull(createdComment.getCreatedOn());
         assertEquals(recipe, createdComment.getRecipe());
 
+    }
+
+    @Test
+    void testGetCommentsByRecipeId(){
+        Long recipeId = 1L;
+        RecipeModel recipeModel = new RecipeModel();
+        recipeModel.setId(recipeId);
+
+
+        CommentModel commentModel1 = new CommentModel();
+        commentModel1.setId(1L);
+        commentModel1.setFirstName("John");
+        commentModel1.setLastName("Doe");
+        commentModel1.setComment("John's comment");
+        commentModel1.setCreatedOn(LocalDateTime.now());
+        commentModel1.setRecipe(recipeModel);
+
+        CommentModel commentModel2 = new CommentModel();
+        commentModel2.setId(2L);
+        commentModel2.setFirstName("Jane");
+        commentModel2.setLastName("Poe");
+        commentModel2.setComment("Jane's comment");
+        commentModel2.setCreatedOn(LocalDateTime.now());
+        commentModel2.setRecipe(recipeModel);
+
+
+        List<CommentModel> expectedComments = Arrays.asList(
+                commentModel1,
+                commentModel2
+        );
+        when(commentRepository.findByRecipeId(recipeId)).thenReturn(expectedComments);
+
+        List<CommentModel> actualComments = commentService.getCommentsByRecipeId(recipeId);
+
+        assertEquals(expectedComments, actualComments);
+        verify(commentRepository, times(1)).findByRecipeId(recipeId);
+        verifyNoMoreInteractions(commentRepository);
     }
 
 }

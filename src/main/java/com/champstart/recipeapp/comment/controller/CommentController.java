@@ -25,6 +25,6 @@ public class CommentController {
     public String displayComments(Long recipeId, Model model){
         List<CommentModel> comments = commentService.getCommentsByRecipeId(recipeId);
         model.addAttribute("comments", comments);
-        return null;
+        return "comments";
     }
 }
