@@ -29,4 +29,9 @@ public class LoginController {
 //        recipeService.saveRecipe(recipeDto); Create login service for LoginFormDto
         return "redirect:/recipes";
     }
+
+    @GetMapping("/home")
+    public String homePage(Model model){
+        return "index";
+    }
 }
