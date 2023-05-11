@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CommentService {
     CommentModel createComment(String firstName, String lastName, String comment, Long recipeId);
+    void postComment(CommentModel comment);
     List<CommentModel> getCommentsByRecipeId(Long recipeId);
 }

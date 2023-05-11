@@ -46,7 +46,12 @@ public class CommentServiceImpl implements CommentService {
         newComment.setFirstName(firstName);
         newComment.setLastName(lastName);
 
-        return commentRepository.save(newComment);
+        return newComment;
+    }
+    @Override
+    public void postComment(CommentModel comment) {
+        // Save the comment using the CommentRepository
+        commentRepository.save(comment);
     }
 
     @Override

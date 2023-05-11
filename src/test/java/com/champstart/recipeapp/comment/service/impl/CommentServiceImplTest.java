@@ -13,10 +13,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class CommentServiceImplTest {
@@ -39,12 +41,12 @@ class CommentServiceImplTest {
     }
 
     @Test
-    void createComment_ValidUserAndRecipe_ReturnsCommentModel() {
+    void createComment_ValidUserAndRecipe_ReturnsNewComment() {
         // Arrange
         String firstName = "John";
         String lastName = "Doe";
-        String comment = "Great recipe!";
-        Long recipeId = 1L;
+        String commentText = "Great recipe!";
+        Long recipeId = 123L;
 
         UserModel user = new UserModel();
         user.setFirstName(firstName);
@@ -53,30 +55,65 @@ class CommentServiceImplTest {
         RecipeModel recipe = new RecipeModel();
         recipe.setId(recipeId);
 
-        CommentModel commentModel = new CommentModel();
-        commentModel.setId(1L);
-        commentModel.setFirstName(firstName);
-        commentModel.setLastName(lastName);
-        commentModel.setComment(comment);
-        commentModel.setCreatedOn(LocalDateTime.now());
-        commentModel.setRecipe(recipe);
-
-        when(commentRepository.findUserByFirstNameAndLastName(eq(firstName), eq(lastName)))
-                .thenReturn(user);
-        when(recipeRepository.findById(eq(recipeId))).thenReturn(Optional.of(recipe));
-        when(commentRepository.save(any(CommentModel.class))).thenReturn(commentModel);
+        when(commentRepository.findUserByFirstNameAndLastName(firstName, lastName)).thenReturn(user);
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipe));
 
         // Act
-        CommentModel createdComment = commentService.createComment(firstName, lastName, comment, recipeId);
+        CommentModel newComment = commentService.createComment(firstName, lastName, commentText, recipeId);
 
         // Assert
-        assertNotNull(createdComment);
-        assertEquals(firstName, createdComment.getFirstName());
-        assertEquals(lastName, createdComment.getLastName());
-        assertEquals(comment, createdComment.getComment());
-        assertNotNull(createdComment.getCreatedOn());
-        assertEquals(recipe, createdComment.getRecipe());
-
+        assertNotNull(newComment);
+        assertEquals(firstName, newComment.getFirstName());
+        assertEquals(lastName, newComment.getLastName());
+        assertEquals(commentText, newComment.getComment());
+        assertEquals(recipe, newComment.getRecipe());
+        assertNotNull(newComment.getCreatedOn());
     }
 
+    @Test
+    void createComment_InvalidUser_ThrowsIllegalArgumentException() {
+        // Arrange
+        String firstName = "John";
+        String lastName = "Doe";
+        String commentText = "Great recipe!";
+        Long recipeId = 123L;
+
+        when(commentRepository.findUserByFirstNameAndLastName(firstName, lastName)).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                commentService.createComment(firstName, lastName, commentText, recipeId));
+    }
+
+    @Test
+    void postComment_ValidComment_CommentSaved() {
+        // Arrange
+        CommentModel comment = new CommentModel();
+
+        // Act
+        commentService.postComment(comment);
+
+        // Assert
+        verify(commentRepository, times(1)).save(comment);
+    }
+
+    @Test
+    void getCommentsByRecipeId_ValidRecipeId_ReturnsComments() {
+        // Arrange
+        Long recipeId = 123L;
+        CommentModel comment1 = new CommentModel();
+        CommentModel comment2 = new CommentModel();
+        List<CommentModel> expectedComments = Arrays.asList(comment1, comment2);
+
+        when(commentRepository.findByRecipeId(recipeId)).thenReturn(expectedComments);
+
+        // Act
+        List<CommentModel> comments = commentService.getCommentsByRecipeId(recipeId);
+
+        // Assert
+        assertNotNull(comments);
+        assertEquals(expectedComments.size(), comments.size());
+        assertTrue(comments.contains(comment1));
+        assertTrue(comments.contains(comment2));
+    }
 }

@@ -1,0 +1,20 @@
+<!-- comments.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Comments</title>
+</head>
+<body>
+<h1>Comments</h1>
+<ul>
+  <li th:each="comment : ${comments}">
+    <div>
+      <strong th:text="${comment.firstName} + ' ' + ${comment.lastName}"></strong>
+      <p th:text="${comment.comment}"></p>
+    </div>
+  </li>
+</ul>
+</body>
+</html>
