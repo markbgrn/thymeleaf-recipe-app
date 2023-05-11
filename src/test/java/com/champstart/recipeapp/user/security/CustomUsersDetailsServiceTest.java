@@ -2,7 +2,6 @@ package com.champstart.recipeapp.user.security;
 import com.champstart.recipeapp.user.model.Role;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.service.UserService;
-import com.champstart.recipeapp.user.service.impl.UserDetailsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
