@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentModel, Long> {
     List<CommentModel> findByRecipeId(Long recipeId);
-    UserModel findUserByFirstNameAndLastName(String firstName, String lastName);
+    UserModel findUserByFullName(String firstName, String lastName);
 }
