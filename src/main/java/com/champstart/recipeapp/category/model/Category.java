@@ -1,6 +1,6 @@
 package com.champstart.recipeapp.category.model;
 
-import com.champstart.recipeapp.recipe.model.RecipeModel;
+import com.champstart.recipeapp.recipe.model.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 import java.util.List;
 
-import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 
 @Data
@@ -19,11 +18,11 @@ import static javax.persistence.GenerationType.*;
 @Builder
 @Entity
 @Table(name = "categories")
-public class CategoryModel {
+public class Category {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String categoryName;
     @OneToMany(mappedBy = "category")
-    private List<RecipeModel> recipes;
+    private List<Recipe> recipes;
 }
