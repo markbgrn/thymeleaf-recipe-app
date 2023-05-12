@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentModel createComment(String firstName, String lastName, String comment, Long recipeId) {
-        UserModel user = commentRepository.findUserByFirstNameAndLastName(firstName, lastName);
+        UserModel user = commentRepository.findUserByFullName(firstName, lastName);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
         }
@@ -50,8 +50,17 @@ public class CommentServiceImpl implements CommentService {
     }
     @Override
     public void postComment(CommentModel comment) {
-        // Save the comment using the CommentRepository
         commentRepository.save(comment);
+    }
+    @Override
+    public CommentModel updateComment(Long commentId, String updatedComment) {
+        CommentModel comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
+
+        comment.setComment(updatedComment);
+        comment.setCreatedOn(LocalDateTime.now()); // Update the timestamp
+
+        return commentRepository.save(comment);
     }
 
     @Override

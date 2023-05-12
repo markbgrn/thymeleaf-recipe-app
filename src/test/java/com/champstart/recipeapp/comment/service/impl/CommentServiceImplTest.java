@@ -12,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class CommentServiceImplTest {
@@ -42,7 +42,7 @@ class CommentServiceImplTest {
 
     @Test
     void createComment_ValidUserAndRecipe_ReturnsNewComment() {
-        // Arrange
+
         String firstName = "John";
         String lastName = "Doe";
         String commentText = "Great recipe!";
@@ -55,13 +55,13 @@ class CommentServiceImplTest {
         RecipeModel recipe = new RecipeModel();
         recipe.setId(recipeId);
 
-        when(commentRepository.findUserByFirstNameAndLastName(firstName, lastName)).thenReturn(user);
+        when(commentRepository.findUserByFullName(firstName, lastName)).thenReturn(user);
         when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipe));
 
-        // Act
+
         CommentModel newComment = commentService.createComment(firstName, lastName, commentText, recipeId);
 
-        // Assert
+
         assertNotNull(newComment);
         assertEquals(firstName, newComment.getFirstName());
         assertEquals(lastName, newComment.getLastName());
@@ -72,31 +72,56 @@ class CommentServiceImplTest {
 
     @Test
     void createComment_InvalidUser_ThrowsIllegalArgumentException() {
-        // Arrange
+
         String firstName = "John";
         String lastName = "Doe";
         String commentText = "Great recipe!";
         Long recipeId = 123L;
 
-        when(commentRepository.findUserByFirstNameAndLastName(firstName, lastName)).thenReturn(null);
+        when(commentRepository.findUserByFullName(firstName, lastName)).thenReturn(null);
 
-        // Act & Assert
+
         assertThrows(IllegalArgumentException.class, () ->
                 commentService.createComment(firstName, lastName, commentText, recipeId));
     }
 
     @Test
     void postComment_ValidComment_CommentSaved() {
-        // Arrange
         CommentModel comment = new CommentModel();
 
-        // Act
         commentService.postComment(comment);
 
-        // Assert
         verify(commentRepository, times(1)).save(comment);
     }
 
+    @Test
+    void updateComment_ValidComment_ReturnsUpdatedComment() {
+        Long commentId = 123L;
+        String updatedComment = "Updated comment";
+
+        CommentModel comment = new CommentModel();
+        comment.setId(commentId);
+        comment.setComment("Old comment");
+        comment.setCreatedOn(LocalDateTime.now());
+
+        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
+        when(commentRepository.save(comment)).thenReturn(comment);
+
+        CommentModel updated = commentService.updateComment(commentId, updatedComment);
+
+        assertNotNull(updated);
+        assertEquals(updatedComment, updated.getComment());
+        assertEquals(comment.getCreatedOn(), updated.getCreatedOn());
+    }
+
+    @Test
+    void updateComment_InvalidComment_ThrowsIllegalArgumentException() {
+        Long commentId = 123L;
+        String updatedComment = "Updated comment";
+
+        when(assertThrows(IllegalArgumentException.class,
+                () -> commentService.updateComment(commentId, updatedComment)));
+    }
     @Test
     void getCommentsByRecipeId_ValidRecipeId_ReturnsComments() {
         // Arrange
@@ -107,13 +132,16 @@ class CommentServiceImplTest {
 
         when(commentRepository.findByRecipeId(recipeId)).thenReturn(expectedComments);
 
-        // Act
+
         List<CommentModel> comments = commentService.getCommentsByRecipeId(recipeId);
 
-        // Assert
+
         assertNotNull(comments);
         assertEquals(expectedComments.size(), comments.size());
         assertTrue(comments.contains(comment1));
         assertTrue(comments.contains(comment2));
     }
+
+
 }
+
