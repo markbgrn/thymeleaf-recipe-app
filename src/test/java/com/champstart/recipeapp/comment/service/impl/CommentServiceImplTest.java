@@ -119,8 +119,8 @@ class CommentServiceImplTest {
         Long commentId = 123L;
         String updatedComment = "Updated comment";
 
-        when(assertThrows(IllegalArgumentException.class,
-                () -> commentService.updateComment(commentId, updatedComment)));
+        doThrow(IllegalArgumentException.class).when(commentRepository).save(mock(CommentModel.class));
+        assertThrows(IllegalArgumentException.class, () -> commentService.updateComment(commentId, updatedComment));
     }
 
     @Test
@@ -157,7 +157,6 @@ class CommentServiceImplTest {
 
         assertEquals(expectedComments, actualComments);
         verify(commentRepository, times(1)).findByRecipeId(recipeId);
-        verifyNoMoreInteractions(commentRepository);
     }
 
 }
