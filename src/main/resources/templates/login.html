@@ -38,7 +38,8 @@
         <p th:if="${param.error}" class="text-danger">
             Invalid username and password
         </p>
-
+        <a th:href="@{/register}">Don't have an account? Register here</a>
+        <br/>
 
         <button type="submit" class="btn btn-primary">Login</button>
     </form>

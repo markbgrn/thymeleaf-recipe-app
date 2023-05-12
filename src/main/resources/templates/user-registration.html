@@ -12,6 +12,7 @@
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container">
+            <h1>Register</h1>
             <form role="form" method="post" th:action="@{/register}" th:object="${user}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -83,6 +84,9 @@
                         <p th:if="${#fields.hasErrors('confirmPassword')}" class="text-danger" th:errors="*{confirmPassword}"></p>
                     </div>
                 </div>
+                <span>Already have an account?</span>
+                <a th:href="@{/login}">Login here</a>
+                <br/>
 
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
