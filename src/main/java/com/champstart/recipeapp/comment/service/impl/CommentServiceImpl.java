@@ -10,6 +10,7 @@ import com.champstart.recipeapp.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,6 +57,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteComment(Long commentId) {
         Optional<CommentModel> commentOptional = Optional.ofNullable(commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId)));
@@ -64,6 +66,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentModel updateComment(Long commentId, String updatedComment) {
         CommentModel comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
