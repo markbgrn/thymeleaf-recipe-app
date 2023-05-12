@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -44,18 +45,21 @@ class RegistrationServiceImplTest {
 
         userDto = UserDto.builder()
                 .email("test@gmail.com")
-                .password("")
+                .password("password")
                 .confirmPassword("password")
                 .firstName("Jane")
                 .lastName("Doe")
-                .verificationId("")
+                .verificationId("test")
                 .build();
     }
 
     @Test
     void validateRegistrationForm() {
+        when(userService.findByEmail(userDto.getEmail())).thenReturn(Mockito.mock(UserModel.class));
+        doNothing().when(emailService).sendEmail("Test", "Test", "Test");
+
         registrationService.validateRegistrationForm(userDto, bindingResult);
-//        doThrow(new Exception()).when(bindingResult).addError(Mockito.mock(FieldError.class));
+        assert userDto.isPasswordNotEqualToConfirmPassword() == false;
     }
 
     @Test
@@ -64,12 +68,14 @@ class RegistrationServiceImplTest {
         when(userService.findByEmail(userDto.getEmail())).thenReturn(Mockito.mock(UserModel.class));
 
         boolean emailExists = registrationService.emailExists(userDto.getEmail());
-
         assertTrue(emailExists);
     }
 
     @Test
     void register() {
+        when(emailService.contructVerificationHtml(anyString())).thenReturn(anyString());
         registrationService.register(userDto);
+        verify(userService, times(1)).saveUser(userDto);
+        verify(emailService, times(1)).sendEmail(anyString(), anyString(), anyString());
     }
 }

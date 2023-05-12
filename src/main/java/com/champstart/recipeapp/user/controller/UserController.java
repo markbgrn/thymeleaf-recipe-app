@@ -49,9 +49,10 @@ public class UserController {
     }
 
     @GetMapping("/verify")
-    public void verifyAccount(HttpServletRequest request) {
+    public String verifyAccount(HttpServletRequest request) {
         String verificationId = request.getParameter("verificationId");
-
         userService.setUserVerified(verificationId);
+
+        return "user-verification-success";
     }
 }
