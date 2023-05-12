@@ -10,8 +10,10 @@ import com.champstart.recipeapp.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -52,13 +54,22 @@ public class CommentServiceImpl implements CommentService {
     public void postComment(CommentModel comment) {
         commentRepository.save(comment);
     }
+
+    @Override
+    public void deleteComment(Long commentId) {
+        Optional<CommentModel> commentOptional = Optional.ofNullable(commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId)));
+
+        commentRepository.deleteById(commentId);
+    }
+
     @Override
     public CommentModel updateComment(Long commentId, String updatedComment) {
         CommentModel comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + commentId));
 
         comment.setComment(updatedComment);
-        comment.setCreatedOn(LocalDateTime.now()); // Update the timestamp
+        comment.setCreatedOn(LocalDateTime.now());
 
         return commentRepository.save(comment);
     }

@@ -122,6 +122,30 @@ class CommentServiceImplTest {
         doThrow(IllegalArgumentException.class).when(commentRepository).save(mock(CommentModel.class));
         assertThrows(IllegalArgumentException.class, () -> commentService.updateComment(commentId, updatedComment));
     }
+    @Test
+    void deleteComment_ValidCommentId_CommentDeleted() {
+        Long commentId = 123L;
+
+        CommentModel comment = new CommentModel();
+        comment.setId(commentId);
+
+        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
+
+        commentService.deleteComment(commentId);
+
+        verify(commentRepository, times(1)).deleteById(commentId);
+    }
+
+    @Test
+    void deleteComment_InvalidCommentId_ThrowsIllegalArgumentException() {
+        Long commentId = 123L;
+
+        when(commentRepository.findById(commentId)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () ->
+                commentService.deleteComment(commentId));
+    }
+
 
     @Test
     void testGetCommentsByRecipeId(){
