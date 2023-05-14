@@ -1,6 +1,10 @@
 package com.champstart.recipeapp.comment.model;
+<<<<<<< Updated upstream
 
 import com.champstart.recipeapp.recipe.model.RecipeModel;
+=======
+import com.champstart.recipeapp.recipe.model.Recipe;
+>>>>>>> Stashed changes
 import com.champstart.recipeapp.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +46,7 @@ public class CommentModel {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id", nullable = false)
-    private RecipeModel recipe;
+    private Recipe recipe;
 
     // Add profile picture association here
 
