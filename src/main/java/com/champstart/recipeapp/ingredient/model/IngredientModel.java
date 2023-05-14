@@ -22,7 +22,7 @@ public class IngredientModel {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String recipeIngredients;
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id")
     private RecipeModel recipe;
 }
