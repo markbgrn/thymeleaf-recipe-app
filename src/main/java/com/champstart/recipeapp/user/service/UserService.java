@@ -12,3 +12,4 @@ public interface UserService {
     UserModel findByEmail(String email);
 
 }
+

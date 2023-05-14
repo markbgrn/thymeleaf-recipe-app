@@ -1,4 +1,5 @@
 package com.champstart.recipeapp.user.security;
+import com.champstart.recipeapp.user.dto.UserDto;
 import com.champstart.recipeapp.user.model.Role;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.service.UserService;
@@ -23,32 +24,42 @@ public class CustomUsersDetailsServiceTest {
     @Mock
     private HttpSession session;
 
+    @Mock
+    private UserDto userDto;
+
     @InjectMocks
     private CustomUsersDetailsService userDetailsService;
 
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
+        userDto = UserDto.builder()
+                .email("emailtest@gmail.com")
+                .password("password")
+                .confirmPassword("password")
+                .firstName("Jane")
+                .lastName("Doe")
+                .verificationId("")
+                .build();
     }
 
     @Test
-    public void testLoadUserByUsername_ValidEmail_ReturnsUserDetails(){
-        String email = "emailtest@gmail.com";
-        String password = "password123";
+    public void loadUserByUsernameTest(){
+
         UserModel user = new UserModel();
-        user.setEmail(email);
-        user.setPassword(password);
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
         user.setIsVerified(true);
         Role role = new Role();
         role.setName("Client");
         user.setRoles(Collections.singletonList(role));
 
-        when(userService.findByEmail(email)).thenReturn(user);
+        when(userService.findByEmail(userDto.getEmail())).thenReturn(user);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
 
         assertNotNull(userDetails);
-        assertEquals(email, userDetails.getUsername());
+        assertEquals(userDto.getEmail(), userDetails.getUsername());
         assertTrue(userDetails.isEnabled());
         assertTrue(userDetails.isAccountNonExpired());
         assertTrue(userDetails.isAccountNonLocked());
@@ -56,11 +67,11 @@ public class CustomUsersDetailsServiceTest {
         assertEquals(1, userDetails.getAuthorities().size());
         assertEquals("Client", userDetails.getAuthorities().iterator().next().getAuthority());
 
-        verify(userService, times(1)).findByEmail(email);
+        verify(userService, times(1)).findByEmail(userDto.getEmail());
     }
 
     @Test
-    public void testLoadUserByUsername_InvalidEmail_ThrowsException(){
+    public void loadUserByUsernameNullEmailTest(){
         String email = "emailtest@gmail.com";
 
         when(userService.findByEmail(email)).thenReturn(null);
