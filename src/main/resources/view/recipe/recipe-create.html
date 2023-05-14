@@ -1,0 +1,76 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Recipe Create</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <form role="form" method="post" th:action="@{/recipes/new}" th:object="${recipe}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="title">Recipe Name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="title"
+                                name="title"
+                                th:field="*{title}"
+                                placeholder="Recipe Name">
+                        <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="photoUrl">Recipe Photo</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="photoUrl"
+                                name="photoUrl"
+                                th:field="*{photoUrl}"
+                                placeholder="Photo Url">
+                        <p th:if="${#fields.hasErrors('photoUrl')}" class="text-danger" th:errors="*{photoUrl}"></p>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="ingredients">Ingredients</label>
+                    <textarea
+                            class="form-control"
+                            id="ingredients"
+                            name="ingredients"
+                            th:field="*{ingredients}"
+                            rows="3">
+                    </textarea>
+                    <p th:if="${#fields.hasErrors('ingredients')}" class="text-danger" th:errors="*{ingredients}"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="procedure">Procedure</label>
+                    <textarea
+                            class="form-control"
+                            id="procedure"
+                            name="procedure"
+                            th:field="*{procedure}"
+                            rows="3">
+                    </textarea>
+                    <p th:if="${#fields.hasErrors('procedure')}" class="text-danger" th:errors="*{procedure}"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="description">Recipe Description</label>
+                    <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            th:field="*{description}"
+                            rows="3">
+                </textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
