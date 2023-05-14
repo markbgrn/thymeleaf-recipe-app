@@ -1,10 +1,6 @@
 package com.champstart.recipeapp.comment.model;
-<<<<<<< Updated upstream
-
-import com.champstart.recipeapp.recipe.model.RecipeModel;
-=======
 import com.champstart.recipeapp.recipe.model.Recipe;
->>>>>>> Stashed changes
+
 import com.champstart.recipeapp.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
