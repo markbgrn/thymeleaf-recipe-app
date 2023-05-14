@@ -27,17 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel saveUser(UserDto userDto) {
+
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setVerificationId(passwordEncoder.encode(userDto.getEmail()));
-        userDto.setIsVerified(false);
         return userRepository.save(mapToUser(userDto));
     }
 
-    @Override
-    public void updateUser(UserDto userDto) {
-        UserModel user = mapToUser(userDto);
-        userRepository.save(user);
-    }
 
     @Override
     public void setUserVerified(String verificationId) {
@@ -47,16 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel loginUser(LoginFormDto loginFormDto) {
-        return null;
-    }
-
-    @Override
     public UserModel findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    private UserModel mapToUser(UserDto userDto) {
+    public UserModel mapToUser(UserDto userDto) {
         UserModel user = new UserModel();
 
         return UserModel.builder()

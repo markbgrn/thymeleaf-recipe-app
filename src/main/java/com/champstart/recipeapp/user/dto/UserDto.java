@@ -27,6 +27,10 @@ public class UserDto {
     @NotBlank(message = "This field should not be blank")
     private String lastName;
     private String verificationId;
-    private Boolean isVerified;
+    private Boolean isVerified = false;
+
+    public boolean isPasswordNotEqualToConfirmPassword() {
+        return !password.equals(confirmPassword);
+    }
 
 }
