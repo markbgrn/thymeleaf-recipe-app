@@ -2,7 +2,7 @@ package com.champstart.recipeapp.comment.service.impl;
 
 import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.comment.repository.CommentRepository;
-import com.champstart.recipeapp.recipe.model.RecipeModel;
+import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.repository.RecipeRepository;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.UserRepository;
@@ -52,7 +52,7 @@ class CommentServiceImplTest {
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
-        RecipeModel recipe = new RecipeModel();
+        Recipe recipe = new Recipe();
         recipe.setId(recipeId);
 
         when(commentRepository.findUserByFullName(firstName, lastName)).thenReturn(user);
@@ -126,7 +126,7 @@ class CommentServiceImplTest {
     @Test
     void testGetCommentsByRecipeId(){
         Long recipeId = 1L;
-        RecipeModel recipeModel = new RecipeModel();
+        Recipe recipeModel = new Recipe();
         recipeModel.setId(recipeId);
 
 

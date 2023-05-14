@@ -3,7 +3,7 @@ package com.champstart.recipeapp.comment.service.impl;
 import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.comment.repository.CommentRepository;
 import com.champstart.recipeapp.comment.service.CommentService;
-import com.champstart.recipeapp.recipe.model.RecipeModel;
+import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.repository.RecipeRepository;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.UserRepository;
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
             throw new IllegalArgumentException("User not found");
         }
 
-        RecipeModel recipeOptional = recipeRepository.findById(recipeId)
+        Recipe recipeOptional = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new IllegalArgumentException("Recipe not found with ID: " + recipeId));
 
         CommentModel newComment = new CommentModel();

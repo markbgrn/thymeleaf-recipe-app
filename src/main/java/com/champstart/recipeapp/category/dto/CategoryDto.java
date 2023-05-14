@@ -13,6 +13,6 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class CategoryDto {
     private Long id;
-    @NotEmpty(message = "Category Should not be Empty.")
+//    @NotEmpty(message = "Category Should not be Empty.")
     private String categoryName;
 }
