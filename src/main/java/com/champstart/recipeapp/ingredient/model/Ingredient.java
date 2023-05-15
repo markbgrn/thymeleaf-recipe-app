@@ -1,6 +1,6 @@
-package com.champstart.recipeapp.procedure.model;
+package com.champstart.recipeapp.ingredient.model;
 
-import com.champstart.recipeapp.recipe.model.RecipeModel;
+import com.champstart.recipeapp.recipe.model.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,13 +16,13 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "procedures")
-public class ProcedureModel {
+@Table(name = "ingredients")
+public class Ingredient {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String recipeProcedure;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "recipe_id")
-    private RecipeModel recipe;
+    private String recipeIngredients;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "recipe_id",nullable = false)
+    private Recipe recipe;
 }

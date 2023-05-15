@@ -1,5 +1,6 @@
 package com.champstart.recipeapp.comment.model;
-import com.champstart.recipeapp.recipe.model.RecipeModel;
+import com.champstart.recipeapp.recipe.model.Recipe;
+
 import com.champstart.recipeapp.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,34 +30,25 @@ public class CommentModel {
     @Column(name = "recipe_comment", length = 4000, nullable = false)
     private String comment;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserModel users;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "recipe_id", nullable = false)
-    private RecipeModel recipe;
-
-    // Add profile picture association here
-
     @Transient
     private String firstName;
 
     @Transient
     private String lastName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel users;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
+    private Recipe recipe;
+
+    // Add profile picture association here
+
     @CreationTimestamp
     private LocalDateTime createdOn;
 
     @UpdateTimestamp
     private LocalDateTime updatedOn;
-
-    // Get the first name from the associated user
-    @PostLoad
-    private void populateName() {
-        if (users != null) {
-            firstName = users.getFirstName();
-            lastName = users.getLastName();
-        }
-    }
 }

@@ -16,3 +16,4 @@ public interface UserService {
     void updatePassword(UserDto userDto, String newPassword);
 
 }
+

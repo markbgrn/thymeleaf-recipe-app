@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUsersDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
-
     private UserService userService;
 
     private HttpSession session;
@@ -34,17 +32,16 @@ public class CustomUsersDetailsService implements UserDetailsService {
         UserModel user = userService.findByEmail(email);
 
         if (user != null){
-            boolean isEnabled = user.getIsVerified();
             User authUser = new User(
                     user.getEmail(),
                     user.getPassword(),
-                    isEnabled,
+                    user.getIsVerified(),
                      true, true, true,
                     user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList())
 
             );
-            session.setAttribute("user", authUser);
+            session.setAttribute("user", user);
 
             return authUser;
         } else {
