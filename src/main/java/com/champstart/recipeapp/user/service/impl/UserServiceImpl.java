@@ -3,7 +3,7 @@ package com.champstart.recipeapp.user.service.impl;
 import com.champstart.recipeapp.user.dto.LoginFormDto;
 import com.champstart.recipeapp.user.dto.NewPasswordFormDto;
 import com.champstart.recipeapp.user.dto.UserDto;
-import com.champstart.recipeapp.user.dto.dtoMapper.UserMapper;
+import com.champstart.recipeapp.user.dto.mapper.UserMapper;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.RoleRepository;
 import com.champstart.recipeapp.user.repository.UserRepository;
