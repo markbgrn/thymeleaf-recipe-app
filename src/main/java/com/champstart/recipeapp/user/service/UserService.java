@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     UserModel saveUser(UserDto userDto);
-    void setUserVerified(String verificationId);
+    UserModel setUserVerified(String verificationId);
     UserModel findByEmail(String email);
 
 }

@@ -36,10 +36,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void setUserVerified(String verificationId) {
+    public UserModel setUserVerified(String verificationId) {
         UserModel user = userRepository.findByVerificationId(verificationId);
         user.setIsVerified(true);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
