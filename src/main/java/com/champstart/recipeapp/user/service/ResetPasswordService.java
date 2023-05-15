@@ -6,5 +6,5 @@ import com.champstart.recipeapp.user.model.UserModel;
 import org.springframework.validation.BindingResult;
 
 public interface ResetPasswordService {
-    void validateResetPasswordForm(ResetPasswordFormDto resetPasswordFormDto, BindingResult result);
+    UserModel checkIfEmailAlreadyRegistered(ResetPasswordFormDto resetPasswordFormDto, BindingResult result);
 }

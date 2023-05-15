@@ -20,15 +20,14 @@ public class ResetPasswordServiceImpl implements ResetPasswordService{
         this.userService = userService;
     }
 
+
     @Override
-    public void validateResetPasswordForm(ResetPasswordFormDto resetPasswordFormDto, BindingResult result) {
+    public UserModel checkIfEmailAlreadyRegistered(ResetPasswordFormDto resetPasswordFormDto, BindingResult result) {
         UserModel userModel = userService.findByEmail(resetPasswordFormDto.getEmail());
         if(userModel == null) {
             result.addError(new FieldError("user", "email", "There is no account associated with this email"));
+            return null;
         }
-    }
-
-    public UserService getUserService() {
-        return userService;
+        return userModel;
     }
 }

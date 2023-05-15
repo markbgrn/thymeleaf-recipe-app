@@ -76,14 +76,14 @@ public class UserController {
 
     @PostMapping("/reset-password")
     public ModelAndView resetPassword(@Valid @ModelAttribute("resetPasswordFormDto") ResetPasswordFormDto resetPasswordFormDto, BindingResult result) {
-        resetPasswordService.validateResetPasswordForm(resetPasswordFormDto, result);
+        UserModel userModel = resetPasswordService.checkIfEmailAlreadyRegistered(resetPasswordFormDto, result);
         if (result.hasErrors()){
             ModelAndView modelAndView = new ModelAndView("user-reset-password");
             modelAndView.addObject("resetPasswordFormDto", resetPasswordFormDto);
             return modelAndView;
         }
-        UserModel userModel = userService.findByEmail(resetPasswordFormDto.getEmail());
-        emailService.sendEmail(resetPasswordFormDto.getEmail(), "Reset your RecipeHub password", emailService.contructResetPasswordHtml(userModel.getVerificationId()));
+
+        emailService.sendEmail(userModel.getEmail(), "Reset your RecipeHub password", emailService.contructResetPasswordHtml(userModel.getVerificationId()));
 
         return new ModelAndView("user-reset-password-email");
     }
