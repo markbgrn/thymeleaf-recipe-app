@@ -19,19 +19,16 @@ public class CustomUsersDetailsService implements UserDetailsService {
 
     private HttpSession session;
     @Autowired
-    public CustomUsersDetailsService(UserService userService, HttpSession session){
+    public CustomUsersDetailsService(UserService userService){
         this.userService = userService;
-        this.session = session;
     }
-
-
 
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
         UserModel user = userService.findByEmail(email);
 
         if (user != null){
-            CustomUsersDetails authUser = (CustomUsersDetails) new User(
+            User authUser = new User(
                     user.getEmail(),
                     user.getPassword(),
                     user.getIsVerified(),
@@ -40,7 +37,6 @@ public class CustomUsersDetailsService implements UserDetailsService {
                     .collect(Collectors.toList())
 
             );
-            session.setAttribute("user", user);
 
             return authUser;
         } else {
