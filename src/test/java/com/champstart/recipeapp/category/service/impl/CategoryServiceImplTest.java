@@ -1,6 +1,6 @@
 package com.champstart.recipeapp.category.service.impl;
 
-import com.champstart.recipeapp.category.dto.CategoryDto;
+import com.champstart.recipeapp.category.dto.CategoryDTO;
 import com.champstart.recipeapp.exception.NotFoundException;
 import com.champstart.recipeapp.category.model.Category;
 import com.champstart.recipeapp.category.repository.CategoryRepository;
@@ -47,7 +47,7 @@ class CategoryServiceImplTest {
         when(categoryRepository.findAll()).thenReturn(categories);
 
         // Act
-        List<CategoryDto> result = categoryService.findAllCategories();
+        List<CategoryDTO> result = categoryService.findAllCategories();
 
         // Assert
         assertEquals(2, result.size());
@@ -65,7 +65,7 @@ class CategoryServiceImplTest {
         category.setCategoryName("Chicken");
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
 
-        CategoryDto result = categoryService.findCategoryById(categoryId);
+        CategoryDTO result = categoryService.findCategoryById(categoryId);
 
         assertNotNull(result);
         assertEquals(categoryId, result.getId());
@@ -83,7 +83,7 @@ class CategoryServiceImplTest {
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
 
         // Act
-        CategoryDto result = categoryService.findCategoryById(categoryId);
+        CategoryDTO result = categoryService.findCategoryById(categoryId);
 
         // Assert
         assertNull(result);
@@ -144,7 +144,7 @@ class CategoryServiceImplTest {
     void testUpdateCategory() {
         // Arrange
         long categoryId = 1L;
-        CategoryDto categoryDto = new CategoryDto();
+        CategoryDTO categoryDto = new CategoryDTO();
         categoryDto.setCategoryName("Pork");
 
         Category existingCategory = new Category();
@@ -155,7 +155,7 @@ class CategoryServiceImplTest {
         when(categoryRepository.save(existingCategory)).thenReturn(existingCategory);
 
         // Act
-        CategoryDto result = categoryService.updateCategory(categoryId, categoryDto);
+        CategoryDTO result = categoryService.updateCategory(categoryId, categoryDto);
 
         // Assert
         assertNotNull(result);
@@ -170,7 +170,7 @@ class CategoryServiceImplTest {
     public void testUpdateCategory_CategoryNotFound() {
         // Arrange
         long categoryId = 1L;
-        CategoryDto categoryDto = new CategoryDto();
+        CategoryDTO categoryDto = new CategoryDTO();
         categoryDto.setCategoryName("Pork");
 
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());

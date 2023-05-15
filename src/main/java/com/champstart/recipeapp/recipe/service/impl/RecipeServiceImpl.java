@@ -1,5 +1,6 @@
 package com.champstart.recipeapp.recipe.service.impl;
 
+import com.champstart.recipeapp.category.model.Category;
 import com.champstart.recipeapp.category.repository.CategoryRepository;
 import com.champstart.recipeapp.exception.NotFoundException;
 import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
@@ -29,13 +30,16 @@ import static com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper.mapToRecip
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
-    private RecipeRepository recipeRepository;
-    private UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository,
+                             CategoryRepository categoryRepository) {
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -49,11 +53,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe createRecipe(RecipeDTO recipeDTO) {
+    public Recipe createRecipe(Long id,RecipeDTO recipeDTO) {
+        Category category = categoryRepository.findById(id).get();
         String email = SecurityUtil.getSessionUser();
         UserModel userModel = userRepository.findByEmail(email);
         Recipe recipe = mapToRecipeEntity(recipeDTO);
         recipe.setUser(userModel);
+        recipe.setCategory(category);
         return recipeRepository.save(recipe);
     }
 

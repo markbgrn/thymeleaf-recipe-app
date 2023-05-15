@@ -1,6 +1,6 @@
 package com.champstart.recipeapp.category.controller;
 
-import com.champstart.recipeapp.category.dto.CategoryDto;
+import com.champstart.recipeapp.category.dto.CategoryDTO;
 import com.champstart.recipeapp.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +18,8 @@ public class CategoryController {
     }
     @GetMapping("/categories")
     public String listOfCategories(Model model){
-        List<CategoryDto> categories = categoryService.findAllCategories();
+        List<CategoryDTO> categories = categoryService.findAllCategories();
         model.addAttribute("categories", categories);
-        return "/view/category/list-of-categories";
+        return "view/category/list-of-categories";
     }
 }

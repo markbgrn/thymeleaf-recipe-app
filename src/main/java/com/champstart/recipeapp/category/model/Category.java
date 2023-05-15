@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.GenerationType.*;
@@ -24,5 +25,5 @@ public class Category {
     private Long id;
     private String categoryName;
     @OneToMany(mappedBy = "category")
-    private List<Recipe> recipes;
+    private List<Recipe> recipes = new ArrayList<>();
 }
