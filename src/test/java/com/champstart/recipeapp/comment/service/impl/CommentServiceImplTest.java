@@ -1,19 +1,25 @@
 package com.champstart.recipeapp.comment.service.impl;
 
+import com.champstart.recipeapp.comment.dto.CommentDTO;
 import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.comment.repository.CommentRepository;
 import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.repository.RecipeRepository;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.UserRepository;
+import com.champstart.recipeapp.user.security.SecurityUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,124 +46,147 @@ class CommentServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
+//    @Test
+//    void saveComment_ValidUser_ReturnsCommentModel() {
+//        CommentDTO commentDTO = new CommentDTO();
+//        commentDTO.setComment("Test Comment");
+//        commentDTO.setUser(new UserModel());
+//        commentDTO.setRecipe(new Recipe());
+//
+//        UserModel sessionUser = new UserModel();
+//        sessionUser.setFirstName("John"); // Set the first name of the session user
+//
+//        // Mock the SecurityContextHolder and Authentication objects
+//        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+//        Authentication authentication = Mockito.mock(Authentication.class);
+//        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+//
+//        // Set the mock user's first name in the Authentication object
+//        Mockito.when(authentication.getPrincipal()).thenReturn(sessionUser.getFirstName());
+//
+//        SecurityContextHolder.setContext(securityContext);
+//
+//        CommentModel savedComment = new CommentModel();
+//        when(commentRepository.save(any(CommentModel.class))).thenReturn(savedComment);
+//
+//        CommentModel result = commentService.saveComment(commentDTO);
+//
+//        assertNotNull(result);
+//        assertEquals(savedComment, result);
+//        assertEquals("Test Comment", result.getComment());
+//    }
+
+
+
+
+//    @Test
+//    void saveComment_InvalidUser_ThrowsIllegalArgumentException() {
+//
+//        CommentDTO commentDTO = new CommentDTO();
+//        commentDTO.setUser(new UserModel());
+//        commentDTO.setRecipe(new Recipe());
+//
+//        when(SecurityUtil.getSessionUser()).thenReturn("testUser");
+//        when(userRepository.findByFirstName("testUser")).thenReturn(null);
+//
+//
+//        assertThrows(IllegalArgumentException.class, () -> commentService.saveComment(commentDTO));
+//    }
+
     @Test
-    void createComment_ValidUserAndRecipe_ReturnsNewComment() {
+    void updateComment_ExistingComment_UpdatesComment() {
 
-        String firstName = "John";
-        String lastName = "Doe";
-        String commentText = "Great recipe!";
-        Long recipeId = 123L;
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(1L);
+        commentDTO.setComment("Updated Comment");
 
-        UserModel user = new UserModel();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-
-        Recipe recipe = new Recipe();
-        recipe.setId(recipeId);
-
-        when(commentRepository.findUserByFullName(firstName, lastName)).thenReturn(user);
-        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipe));
+        CommentModel existingComment = new CommentModel();
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(existingComment));
+        when(commentRepository.save(existingComment)).thenReturn(existingComment);
 
 
-        CommentModel newComment = commentService.createComment(firstName, lastName, commentText, recipeId);
+        commentService.updateComment(commentDTO);
 
 
-        assertNotNull(newComment);
-        assertEquals(firstName, newComment.getFirstName());
-        assertEquals(lastName, newComment.getLastName());
-        assertEquals(commentText, newComment.getComment());
-        assertEquals(recipe, newComment.getRecipe());
-        assertNotNull(newComment.getCreatedOn());
+        verify(commentRepository, times(1)).findById(1L);
+        verify(commentRepository, times(1)).save(existingComment);
+        assertEquals("Updated Comment", existingComment.getComment());
+        assertNotNull(existingComment.getUpdatedOn());
     }
 
     @Test
-    void createComment_InvalidUser_ThrowsIllegalArgumentException() {
+    void updateComment_NonExistingComment_ThrowsIllegalArgumentException() {
 
-        String firstName = "John";
-        String lastName = "Doe";
-        String commentText = "Great recipe!";
-        Long recipeId = 123L;
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(1L);
+        commentDTO.setComment("Updated Comment");
 
-        when(commentRepository.findUserByFullName(firstName, lastName)).thenReturn(null);
+        when(commentRepository.findById(1L)).thenReturn(Optional.empty());
 
 
-        assertThrows(IllegalArgumentException.class, () ->
-                commentService.createComment(firstName, lastName, commentText, recipeId));
+        assertThrows(IllegalArgumentException.class, () -> commentService.updateComment(commentDTO));
     }
 
     @Test
-    void postComment_ValidComment_CommentSaved() {
-        CommentModel comment = new CommentModel();
+    void deleteComment_ExistingComment_DeletesComment() {
 
-        commentService.postComment(comment);
+        CommentModel existingComment = new CommentModel();
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(existingComment));
 
-        verify(commentRepository, times(1)).save(comment);
+        commentService.deleteComment(1L);
+
+
+        verify(commentRepository, times(1)).findById(1L);
+        verify(commentRepository, times(1)).delete(existingComment);
     }
 
     @Test
-    void updateComment_ValidComment_ReturnsUpdatedComment() {
-        Long commentId = 123L;
-        String updatedComment = "Updated comment";
+    void deleteComment_NonExistingComment_ThrowsIllegalArgumentException() {
 
-        CommentModel comment = new CommentModel();
-        comment.setId(commentId);
-        comment.setComment("Old comment");
-        comment.setCreatedOn(LocalDateTime.now());
+        when(commentRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
-        when(commentRepository.save(comment)).thenReturn(comment);
 
-        CommentModel updated = commentService.updateComment(commentId, updatedComment);
-
-        assertNotNull(updated);
-        assertEquals(updatedComment, updated.getComment());
-        assertEquals(comment.getCreatedOn(), updated.getCreatedOn());
+        assertThrows(IllegalArgumentException.class, () -> commentService.deleteComment(1L));
     }
 
     @Test
-    void updateComment_InvalidComment_ThrowsIllegalArgumentException() {
-        Long commentId = 123L;
-        String updatedComment = "Updated comment";
-
-        doThrow(IllegalArgumentException.class).when(commentRepository).save(mock(CommentModel.class));
-        assertThrows(IllegalArgumentException.class, () -> commentService.updateComment(commentId, updatedComment));
-    }
-
-    @Test
-    void testGetCommentsByRecipeId(){
+    void getCommentsByRecipeId_ExistingRecipe_ReturnsListOfComments() {
         Long recipeId = 1L;
+
         Recipe recipeModel = new Recipe();
         recipeModel.setId(recipeId);
 
+        CommentDTO commentDTO1 = new CommentDTO();
+        commentDTO1.setId(2L);
+        commentDTO1.setUser(new UserModel());
+        commentDTO1.setComment("Comment 1");
+        commentDTO1.setCreatedOn(LocalDateTime.now());
+        commentDTO1.setRecipe(new Recipe());
 
-        CommentModel commentModel1 = new CommentModel();
-        commentModel1.setId(1L);
-        commentModel1.setFirstName("John");
-        commentModel1.setLastName("Doe");
-        commentModel1.setComment("John's comment");
-        commentModel1.setCreatedOn(LocalDateTime.now());
-        commentModel1.setRecipe(recipeModel);
+        CommentDTO commentDTO2 = new CommentDTO();
+        commentDTO2.setId(3L);
+        commentDTO2.setUser(new UserModel());
+        commentDTO2.setComment("Comment 2");
+        commentDTO2.setCreatedOn(LocalDateTime.now());
+        commentDTO2.setRecipe(new Recipe());
 
-        CommentModel commentModel2 = new CommentModel();
-        commentModel2.setId(2L);
-        commentModel2.setFirstName("Jane");
-        commentModel2.setLastName("Poe");
-        commentModel2.setComment("Jane's comment");
-        commentModel2.setCreatedOn(LocalDateTime.now());
-        commentModel2.setRecipe(recipeModel);
-
-
-        List<CommentModel> expectedComments = Arrays.asList(
-                commentModel1,
-                commentModel2
-        );
+        List<CommentDTO> expectedComments = Arrays.asList(commentDTO1, commentDTO2);
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipeModel));
         when(commentRepository.findByRecipeId(recipeId)).thenReturn(expectedComments);
 
-        List<CommentModel> actualComments = commentService.getCommentsByRecipeId(recipeId);
+        List<CommentDTO> actualComments = commentService.getCommentsByRecipeId(recipeId);
 
         assertEquals(expectedComments, actualComments);
         verify(commentRepository, times(1)).findByRecipeId(recipeId);
     }
 
-}
 
+    @Test
+    void getCommentsByRecipeId_NonExistingRecipe_ThrowsIllegalArgumentException() {
+
+        when(recipeRepository.findById(1L)).thenReturn(Optional.empty());
+
+
+        assertThrows(IllegalArgumentException.class, () -> commentService.getCommentsByRecipeId(1L));
+    }
+}

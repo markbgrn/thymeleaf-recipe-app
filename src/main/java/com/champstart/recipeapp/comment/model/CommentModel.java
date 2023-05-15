@@ -30,12 +30,6 @@ public class CommentModel {
     @Column(name = "recipe_comment", length = 4000, nullable = false)
     private String comment;
 
-    @Transient
-    private String firstName;
-
-    @Transient
-    private String lastName;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel users;
