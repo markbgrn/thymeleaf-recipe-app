@@ -44,4 +44,13 @@ public class EmailServiceImpl implements EmailService {
         return "<h1>Please verify your RecipeHub Account</h1>" +
                 "<p>Click the link to verify your account: </p></br>" + "<a href=\"" + url + "\">" + url + "</a>";
     }
+
+    public String contructResetPasswordHtml(String verificationId) {
+        if(verificationId.equals("") || verificationId == null) {
+            throw new IllegalArgumentException("verificationId is null or empty");
+        }
+        String url = "http://localhost:8080/new-password?verificationId=" + verificationId;
+        return "<h1>Reset your RecipeHub password</h1>" +
+                "<p>Click the link to set a new password: </p></br>" + "<a href=\"" + url + "\">" + url + "</a>";
+    }
 }
