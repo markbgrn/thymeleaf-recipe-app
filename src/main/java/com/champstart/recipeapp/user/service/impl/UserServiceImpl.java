@@ -1,7 +1,9 @@
 package com.champstart.recipeapp.user.service.impl;
 
 import com.champstart.recipeapp.user.dto.LoginFormDto;
+import com.champstart.recipeapp.user.dto.NewPasswordFormDto;
 import com.champstart.recipeapp.user.dto.UserDto;
+import com.champstart.recipeapp.user.dto.dtoMapper.UserMapper;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.repository.RoleRepository;
 import com.champstart.recipeapp.user.repository.UserRepository;
@@ -33,6 +35,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(mapToUser(userDto));
     }
 
+    @Override
+    public UserModel updateUser(UserDto userDto) {
+        return userRepository.save(mapToUser(userDto));
+    }
 
     @Override
     public void setUserVerified(String verificationId) {
@@ -44,6 +50,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserModel findByVerificationId(String verificationId) {
+        return userRepository.findByVerificationId(verificationId);
+    }
+
+    @Override
+    public void updatePassword(UserDto userDto, String newPassword) {
+        userDto.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(UserMapper.mapToUser(userDto));
     }
 
     public UserModel mapToUser(UserDto userDto) {

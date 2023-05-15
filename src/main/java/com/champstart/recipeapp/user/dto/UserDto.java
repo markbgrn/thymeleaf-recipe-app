@@ -4,16 +4,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
 @Builder
 public class UserDto {
-
+    private Long id;
     @NotBlank(message = "This field should not be blank")
     @Email(message = "Please enter a valid email address")
     private String email;
@@ -28,6 +32,8 @@ public class UserDto {
     private String lastName;
     private String verificationId;
     private Boolean isVerified = false;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
 
     public boolean isPasswordNotEqualToConfirmPassword() {
         return !password.equals(confirmPassword);

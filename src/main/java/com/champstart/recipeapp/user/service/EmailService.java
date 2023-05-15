@@ -13,4 +13,5 @@ public interface EmailService {
     public void sendEmail(String to, String subject, String body);
 
     public String contructVerificationHtml(String verificationId);
+    public String contructResetPasswordHtml(String verificationId);
 }
