@@ -22,6 +22,7 @@ public class RecipeMapper {
                 .id(recipeDTO.getId())
                 .recipeTitle(recipeDTO.getRecipeTitle())
                 .recipeDescription(recipeDTO.getRecipeDescription())
+                .user(recipeDTO.getUser())
                 .build();
     }
     public static RecipeDTO mapToRecipeDTO(Recipe recipe){
@@ -29,6 +30,7 @@ public class RecipeMapper {
                 .id(recipe.getId())
                 .recipeTitle(recipe.getRecipeTitle())
                 .recipeDescription(recipe.getRecipeDescription())
+                .user(recipe.getUser())
                 .ingredients(recipe.getIngredients()
                         .stream()
                         .map(IngredientMapper::mapToIngredientDTO)

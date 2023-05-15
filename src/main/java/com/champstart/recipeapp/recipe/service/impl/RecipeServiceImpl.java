@@ -12,7 +12,11 @@ import com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper;
 import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.repository.RecipeRepository;
 import com.champstart.recipeapp.recipe.service.RecipeService;
+import com.champstart.recipeapp.user.model.UserModel;
+import com.champstart.recipeapp.user.repository.UserRepository;
+import com.champstart.recipeapp.user.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,6 +30,13 @@ import static com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper.mapToRecip
 @Service
 public class RecipeServiceImpl implements RecipeService {
     private RecipeRepository recipeRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository) {
+        this.recipeRepository = recipeRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public RecipeDTO getRecipeById(Long id) {
@@ -39,7 +50,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe createRecipe(RecipeDTO recipeDTO) {
+        String email = SecurityUtil.getSessionUser();
+        UserModel userModel = userRepository.findByEmail(email);
         Recipe recipe = mapToRecipeEntity(recipeDTO);
+        recipe.setUser(userModel);
         return recipeRepository.save(recipe);
     }
 
@@ -53,7 +67,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void updateRecipe(RecipeDTO recipeDTO) {
+        String email = SecurityUtil.getSessionUser();
+        UserModel userModel = userRepository.findByEmail(email);
+        Recipe recipe = mapToRecipeEntity(recipeDTO);
+        recipe.setUser(userModel);
+        recipeRepository.save(recipe);
+    }
 
+    @Override
+    public void deleteRecipe(Long id) {
+        recipeRepository.deleteById(id);
     }
 
 

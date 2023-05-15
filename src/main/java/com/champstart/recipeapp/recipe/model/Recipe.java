@@ -4,6 +4,7 @@ import com.champstart.recipeapp.category.model.Category;
 import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.ingredient.model.Ingredient;
 import com.champstart.recipeapp.procedure.model.Procedure;
+import com.champstart.recipeapp.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,8 @@ public class Recipe {
     private List<Procedure> procedures = new ArrayList<>();
     @OneToMany(mappedBy = "recipe")
     private List<CommentModel> comments = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel user;
 
 }

@@ -2,6 +2,7 @@ package com.champstart.recipeapp.recipe.dto;
 
 import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
 import com.champstart.recipeapp.procedure.dto.ProcedureDTO;
+import com.champstart.recipeapp.user.model.UserModel;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class RecipeDTO {
     private Long id;
     private String recipeTitle;
     private String recipeDescription;
+    private UserModel user;
 //    private CategoryDTO category; private Long categoryId;
     private List<IngredientDTO> ingredients;
     private List<ProcedureDTO> procedures;

@@ -10,4 +10,6 @@ public interface RecipeService {
     Recipe createRecipe(RecipeDTO recipeDTO);
     List<RecipeDTO> findAllRecipes();
     void updateRecipe(RecipeDTO recipeDTO);
+
+    void deleteRecipe(Long id);
 }
