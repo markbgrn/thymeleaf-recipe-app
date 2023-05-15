@@ -32,7 +32,7 @@ public class CustomUsersDetailsService implements UserDetailsService {
         UserModel user = userService.findByEmail(email);
 
         if (user != null){
-            User authUser = new User(
+            CustomUserDetails authUser = (CustomUserDetails) new User(
                     user.getEmail(),
                     user.getPassword(),
                     user.getIsVerified(),
