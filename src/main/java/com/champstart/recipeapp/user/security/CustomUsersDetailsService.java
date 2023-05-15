@@ -1,7 +1,6 @@
 package com.champstart.recipeapp.user.security;
 
 import com.champstart.recipeapp.user.model.UserModel;
-import com.champstart.recipeapp.user.repository.UserRepository;
 import com.champstart.recipeapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,12 +19,9 @@ public class CustomUsersDetailsService implements UserDetailsService {
 
     private HttpSession session;
     @Autowired
-    public CustomUsersDetailsService(UserService userService, HttpSession session){
+    public CustomUsersDetailsService(UserService userService){
         this.userService = userService;
-        this.session = session;
     }
-
-
 
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
@@ -41,7 +37,6 @@ public class CustomUsersDetailsService implements UserDetailsService {
                     .collect(Collectors.toList())
 
             );
-            session.setAttribute("user", user);
 
             return authUser;
         } else {
