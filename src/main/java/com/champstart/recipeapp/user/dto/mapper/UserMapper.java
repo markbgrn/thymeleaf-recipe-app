@@ -1,11 +1,7 @@
-package com.champstart.recipeapp.user.dto.dtoMapper;
+package com.champstart.recipeapp.user.dto.mapper;
 
 import com.champstart.recipeapp.user.dto.UserDto;
 import com.champstart.recipeapp.user.model.UserModel;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 public class UserMapper {
     public static UserDto mapToUserDto(UserModel userModel) {

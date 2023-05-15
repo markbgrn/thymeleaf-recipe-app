@@ -32,24 +32,25 @@ public class UserServiceImpl implements UserService {
 
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setVerificationId(passwordEncoder.encode(userDto.getEmail()));
-        return userRepository.save(mapToUser(userDto));
+        UserModel userModel = UserMapper.mapToUser(userDto);
+        return userRepository.save(userModel);
     }
 
     @Override
-    public UserModel updateUser(UserDto userDto) {
-        return userRepository.save(mapToUser(userDto));
-    }
-
-    @Override
-    public void setUserVerified(String verificationId) {
+    public UserModel setUserVerified(String verificationId) {
         UserModel user = userRepository.findByVerificationId(verificationId);
         user.setIsVerified(true);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public UserModel findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserModel mapToUser(UserDto userDto) {
+        return null;
     }
 
     @Override
@@ -61,18 +62,5 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(UserDto userDto, String newPassword) {
         userDto.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(UserMapper.mapToUser(userDto));
-    }
-
-    public UserModel mapToUser(UserDto userDto) {
-        UserModel user = new UserModel();
-
-        return UserModel.builder()
-                .firstName(userDto.getFirstName())
-                .lastName(userDto.getLastName())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .verificationId(userDto.getVerificationId())
-                .isVerified(userDto.getIsVerified())
-                .build();
     }
 }
