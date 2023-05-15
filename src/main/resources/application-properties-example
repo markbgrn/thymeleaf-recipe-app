@@ -1,7 +1,7 @@
 #OracleDB Connection Configuration
-spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/xe
-spring.datasource.username=recipe
-spring.datasource.password=recipe
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
 #JPA Configuration Settings
@@ -15,7 +15,7 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 
 spring.mail.host=sandbox.smtp.mailtrap.io
 spring.mail.port=465
-spring.mail.username=4efd5985b120b6
-spring.mail.password=cfa9e61eec10dc
+spring.mail.username=
+spring.mail.password=
 spring.mail.properties.mail.smtp.auth=plain
 spring.mail.properties.mail.smtp.starttls.enable=true
