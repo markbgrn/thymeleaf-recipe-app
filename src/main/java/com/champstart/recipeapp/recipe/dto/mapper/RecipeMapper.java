@@ -23,6 +23,7 @@ public class RecipeMapper {
                 .id(recipeDTO.getId())
                 .recipeTitle(recipeDTO.getRecipeTitle())
                 .recipeDescription(recipeDTO.getRecipeDescription())
+                .category(recipeDTO.getCategory())
                 .user(recipeDTO.getUser())
                 .build();
     }
@@ -32,6 +33,7 @@ public class RecipeMapper {
                 .recipeTitle(recipe.getRecipeTitle())
                 .recipeDescription(recipe.getRecipeDescription())
                 .user(recipe.getUser())
+                .category(recipe.getCategory())
                 .ingredients(recipe.getIngredients()
                         .stream()
                         .map(IngredientMapper::mapToIngredientDTO)
@@ -39,7 +41,9 @@ public class RecipeMapper {
                 .procedures(recipe.getProcedures().stream()
                         .map(ProcedureMapper::mapToProcedureDTO)
                         .collect(Collectors.toList()))
-                .comments(recipe.getComments().stream().map(CommentMapper::mapToCommentDTO).collect(Collectors.toList()))
+                .comments(recipe.getComments().stream()
+                        .map(CommentMapper::mapToCommentDTO)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

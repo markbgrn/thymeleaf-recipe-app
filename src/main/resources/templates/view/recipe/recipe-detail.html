@@ -167,6 +167,12 @@
                 <!--                </div>-->
                 <!-- Side widget-->
                 <div class="card mb-4">
+                    <div class="card-header" style="text-transform: uppercase">Category</div>
+                    <div class="card-body">
+                        <p class="lead mb-0" th:text="${recipe.category.categoryName}"></p>
+                    </div>
+                </div>
+                <div class="card mb-4">
                     <div class="card-header" style="text-transform: uppercase">Ingredients</div>
                     <div class="card-body">
                         <p class="lead mb-0" th:text="${recipe.ingredients}"></p>
