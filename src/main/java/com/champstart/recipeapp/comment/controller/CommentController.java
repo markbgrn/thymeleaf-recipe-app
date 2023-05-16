@@ -31,17 +31,12 @@ public class CommentController {
     public CommentController(CommentService commentService, UserService userService, RecipeService recipeService, SecurityUtil securityUtil) {
         this.commentService = commentService;
         this.userService = userService;
-
         this.recipeService = recipeService;
         this.securityUtil = securityUtil;
     }
 
     @PostMapping("/comments/save/{recipeID}")
     public String saveComment(@Valid @ModelAttribute("comment") CommentDTO commentDTO, BindingResult bindingResult, @PathVariable Long recipeID, Model model){
-        UserModel user = new UserModel();
-        String firstName = getSessionUser();
-        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
-        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
         model.addAttribute("comment", commentDTO);
         if (recipeID != null) {
             commentService.saveComment(recipeID, commentDTO);

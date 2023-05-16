@@ -33,7 +33,7 @@
 
                 <div class="card mb-4"  th:each="comment : ${recipe.comments}">
                     <div class="card-body">
-                        <h6 class="card-title" th:text="|${comment.user.firstName} ${comment.user.lastName} |"></h6>
+                        <h6 class="card-title" th:text="|${#strings.capitalize(comment.user.firstName)} ${#strings.capitalize(comment.user.lastName)} |"></h6>
 
                         <div>
                             <p th:text="${#temporals.format(comment.createdOn , 'MMMM-dd-yyyy hh:mm:a') }"></p>
