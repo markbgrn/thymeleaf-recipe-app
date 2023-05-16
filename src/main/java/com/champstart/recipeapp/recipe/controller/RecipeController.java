@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.jws.WebParam;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Controller
