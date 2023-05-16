@@ -8,15 +8,14 @@ import com.champstart.recipeapp.recipe.service.RecipeService;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.security.SecurityUtil;
 import com.champstart.recipeapp.user.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -73,5 +72,19 @@ public class RecipeController {
 
         recipeService.createRecipe(recipeDTO.getCategory().getId(), recipeDTO);
         return "redirect:/recipes";
+    }
+
+    @GetMapping("/recipes/search")
+    public String searchRecipes(@RequestParam("q") String recipeName, Model model) {
+        List<Recipe> recipes = recipeService.searchRecipes(recipeName);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("recipeName", recipeName);
+        return "view/recipe/recipe-search";
+    }
+
+    @GetMapping("/search")
+    public String searchForm(Model model) {
+        model.addAttribute("recipeName", "");
+        return "view/search/search";
     }
 }

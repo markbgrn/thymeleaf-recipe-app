@@ -12,4 +12,6 @@ public interface RecipeService {
     void updateRecipe(RecipeDTO recipeDTO);
 
     void deleteRecipe(Long id);
+
+    List<Recipe> searchRecipes(String recipeName);
 }

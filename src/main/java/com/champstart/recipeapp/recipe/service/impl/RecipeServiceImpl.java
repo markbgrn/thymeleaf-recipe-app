@@ -80,5 +80,10 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.deleteById(id);
     }
 
+    @Override
+    public List<Recipe> searchRecipes(String recipeName) {
+        return recipeRepository.findByRecipeTitleContainingIgnoreCase(recipeName);
+    }
+
 
 }
