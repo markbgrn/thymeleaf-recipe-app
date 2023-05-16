@@ -23,14 +23,21 @@
                 <!-- Featured blog post-->
                 <div class="card mb-5">
                     <a href="#!">
-                        <img class="card-img-top" th:src="${recipe.photoUrl}" alt="..."/>
+                        <!--                        <img class="card-img-top" th:src="${recipe.photoUrl}" alt="..."/>-->
                     </a>
                     <div class="card-body">
-                        <h2 class="card-title" th:text="${recipe.title}" style="text-transform: uppercase"></h2>
-                        <div class="small text-muted" th:text="${recipe.description}"></div>
+                        <h2 class="card-title" th:text="${recipe.recipeTitle}" style="text-transform: uppercase"></h2>
+                        <div class="small text-muted" th:text="${recipe.recipeDescription}"></div>
                         <!--                        <a class="btn btn-danger">Delete</a>-->
                     </div>
 
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">dito name at profile pic</h6>
+                        <div class="small text-muted" th:text="${recipe.recipeDescription}"></div>
+                    </div>
                 </div>
                 <div class="card mb-3">
                     <div class="card-body">
@@ -44,17 +51,12 @@
                                             name="userComment"
                                             rows="3">
                                      </textarea>
-                                    <p th:if="${#fields.hasErrors('ingredients')}" class="text-danger"
-                                       th:errors="*{ingredients}"></p>
+                                    <!--                                    <p th:if="${#fields.hasErrors('ingredients')}" class="text-danger"-->
+                                    <!--                                       th:errors="*{ingredients}"></p>-->
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">comment</button>
                         </form>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h6 class="card-title">dito name at profile pic</h6>
-                        <div class="small text-muted" th:text="${recipe.description}"></div>
                     </div>
                 </div>
                 <!-- Nested row for non-featured blog posts-->
@@ -172,7 +174,7 @@
                 <div class="card mb-4">
                     <div class="card-header" style="text-transform: uppercase">Procedure</div>
                     <div class="card-body">
-                        <p class="lead mb-0" th:text="${recipe.procedure}"></p>
+                        <p class="lead mb-0" th:text="${recipe.procedures}"></p>
                     </div>
                 </div>
             </div>
