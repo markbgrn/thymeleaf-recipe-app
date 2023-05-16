@@ -153,4 +153,24 @@ class RecipeServiceImplTest {
         assertEquals(1, recipeDTO2.getIngredients().size());
         assertEquals(1, recipeDTO2.getProcedures().size());
     }
+
+    @Test
+    public void testSearchRecipes() {
+        String recipeName = "chicken";
+        Recipe testRecipe1 = new Recipe();
+        Recipe testRecipe2 = new Recipe();
+        testRecipe1.setRecipeTitle("Fried Chicken");
+        testRecipe2.setRecipeTitle("Chicken sandwich");
+        List<Recipe> expectedRecipes = Arrays.asList(
+                testRecipe1,
+                testRecipe2
+
+        );
+
+        when(recipeRepository.findByRecipeTitleContainingIgnoreCase(anyString())).thenReturn(expectedRecipes);
+
+        List<Recipe> actualRecipes = recipeService.searchRecipes(recipeName);
+
+        assertEquals(expectedRecipes, actualRecipes);
+    }
 }

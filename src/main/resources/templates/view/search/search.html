@@ -1,0 +1,29 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout}">
+<head>
+  <title>Recipe Search</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+  <!-- Page Content-->
+  <section layout:fragment="body" class="py-5">
+    <div class="container">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label >Recipe Title</label>
+            <form action="/recipes/search" method="get">
+              <div class="input-group">
+                <input type="search" class="form-control rounded" name="q" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+</body>
+</html>
