@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Create an Account</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+  <section layout:fragment="body" class="py-5">
+    <div class="container">
+      <h1>Profile</h1>
+      <div>
+        <a class="btn btn-primary" th:href="@{/edit-profile}"role="button">Edit</a>
+      </div>
+      <label>First name</label>
+      <p th:text="${userProfile.firstName}"></p>
+      <label>Last name</label>
+      <p th:text="${userProfile.lastName}"></p>
+      <label>Email</label>
+      <p th:text="${userProfile.email}"></p>
+      <label>Profile Photo</label>
+      <div>
+
+      </div>
+      <div style="height: 150px; width: 150px">
+        <img class="rounded img-thumbnail" th:src="@{/images/profile/{photoPath}(photoPath=${userProfile.photoPath})}"/>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

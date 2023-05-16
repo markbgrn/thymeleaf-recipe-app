@@ -12,8 +12,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Data
 @Builder
 public class UserDto {
@@ -32,6 +30,7 @@ public class UserDto {
     private String lastName;
     private String verificationId;
     private Boolean isVerified = false;
+    private String photoPath;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
