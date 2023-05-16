@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentDTO {
     private Long id;
+    @NotEmpty(message = "comment should not be empty")
     private String comment;
     private Recipe recipe;
     private UserModel user;

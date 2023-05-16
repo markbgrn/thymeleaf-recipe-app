@@ -23,42 +23,43 @@
                 <!-- Featured blog post-->
                 <div class="card mb-5">
                     <a href="#!">
-                        <!--                        <img class="card-img-top" th:src="${recipe.photoUrl}" alt="..."/>-->
+                        <!-- <img class="card-img-top" th:src="${recipe.photoUrl}" alt="..."/> -->
                     </a>
                     <div class="card-body">
                         <h2 class="card-title" th:text="${recipe.recipeTitle}" style="text-transform: uppercase"></h2>
                         <div class="small text-muted" th:text="${recipe.recipeDescription}"></div>
-                        <!--                        <a class="btn btn-danger">Delete</a>-->
                     </div>
-
                 </div>
 
-                <div class="card mb-4">
+                <div class="card mb-4"  th:each="comment : ${recipe.comments}">
                     <div class="card-body">
-                        <h6 class="card-title">dito name at profile pic</h6>
-                        <div class="small text-muted" th:text="${recipe.recipeDescription}"></div>
+                        <h6 class="card-title" th:text="|${comment.user.firstName} ${comment.user.lastName} |"></h6>
+
+                        <div>
+                            <p th:text="${#temporals.format(comment.createdOn , 'MMMM-dd-yyyy hh:mm:a') }"></p>
+                        </div>
+
+
+                        <div>
+                            <p th:text="${comment.comment}"></p>
+                        </div>
                     </div>
                 </div>
+
                 <div class="card mb-3">
                     <div class="card-body">
-                        <form role="form" method="post" th:action="@{/recipes/new}" th:object="${recipe}">
+                        <form role="form" method="post" th:action="@{/comments/save/{recipeID}(recipeID=${recipe.id})}" th:object="${comment}">
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="userComment" class="card-title">Comment</label>
-                                    <textarea
-                                            class="form-control"
-                                            id="userComment"
-                                            name="userComment"
-                                            rows="3">
-                                     </textarea>
-                                    <!--                                    <p th:if="${#fields.hasErrors('ingredients')}" class="text-danger"-->
-                                    <!--                                       th:errors="*{ingredients}"></p>-->
+                                    <textarea class="form-control" id="userComment" name="comment" rows="3"></textarea>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">comment</button>
+                            <button type="submit" class="btn btn-primary">Comment</button>
                         </form>
                     </div>
                 </div>
+
                 <!-- Nested row for non-featured blog posts-->
                 <div class="row">
                     <!--                    <div class="col-lg-6">-->

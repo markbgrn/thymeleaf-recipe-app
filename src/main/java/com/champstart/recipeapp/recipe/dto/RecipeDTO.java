@@ -2,6 +2,7 @@ package com.champstart.recipeapp.recipe.dto;
 
 import com.champstart.recipeapp.category.dto.CategoryDTO;
 import com.champstart.recipeapp.category.model.Category;
+import com.champstart.recipeapp.comment.dto.CommentDTO;
 import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
 import com.champstart.recipeapp.procedure.dto.ProcedureDTO;
 import com.champstart.recipeapp.user.model.UserModel;
@@ -25,5 +26,5 @@ public class RecipeDTO {
     private Category category;
     private List<IngredientDTO> ingredients;
     private List<ProcedureDTO> procedures;
-//    private List<CommentDTO> comments;
+    private List<CommentDTO> comments;
 }
