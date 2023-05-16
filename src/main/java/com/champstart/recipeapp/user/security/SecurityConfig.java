@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/login", "/register").anonymous()
                 .antMatchers("/css/**", "/js/**").permitAll()
-                .antMatchers("/home", "/recipes", "/comments").authenticated()
+                .antMatchers("/home", "/recipes/**", "/comments/**", "/search/**", "/view-profile/**").authenticated()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
