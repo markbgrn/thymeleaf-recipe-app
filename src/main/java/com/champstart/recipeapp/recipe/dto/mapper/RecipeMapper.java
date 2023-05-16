@@ -1,5 +1,6 @@
 package com.champstart.recipeapp.recipe.dto.mapper;
 
+import com.champstart.recipeapp.comment.dto.CommentMapper;
 import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
 import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
 import com.champstart.recipeapp.ingredient.model.Ingredient;
@@ -38,6 +39,7 @@ public class RecipeMapper {
                 .procedures(recipe.getProcedures().stream()
                         .map(ProcedureMapper::mapToProcedureDTO)
                         .collect(Collectors.toList()))
+                .comments(recipe.getComments().stream().map(CommentMapper::mapToCommentDTO).collect(Collectors.toList()))
                 .build();
     }
 }

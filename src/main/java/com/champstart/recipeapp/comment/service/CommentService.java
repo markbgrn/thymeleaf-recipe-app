@@ -6,8 +6,10 @@ import com.champstart.recipeapp.comment.model.CommentModel;
 import java.util.List;
 
 public interface CommentService {
-    CommentModel saveComment(CommentDTO commentDTO);
+    CommentModel saveComment(Long id, CommentDTO commentDTO);
     void updateComment(CommentDTO commentDTO);
     void deleteComment(Long Id);
     List<CommentDTO> getCommentsByRecipeId(Long recipeId);
+
+    List <CommentDTO> findAllComments();
 }
