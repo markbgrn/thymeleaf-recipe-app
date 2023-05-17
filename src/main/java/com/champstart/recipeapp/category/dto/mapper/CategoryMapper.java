@@ -7,7 +7,6 @@ import com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper;
 import java.util.stream.Collectors;
 
 public class CategoryMapper {
-
     public static Category mapToCategoryEntity(CategoryDTO categoryDTO) {
         return Category.builder()
                 .id(categoryDTO.getId())

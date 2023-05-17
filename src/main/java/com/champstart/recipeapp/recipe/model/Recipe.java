@@ -5,10 +5,7 @@ import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.ingredient.model.Ingredient;
 import com.champstart.recipeapp.procedure.model.Procedure;
 import com.champstart.recipeapp.user.model.UserModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -36,12 +33,11 @@ public class Recipe {
     private Category category;
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
     private List<Ingredient> ingredients = new ArrayList<>();
-    @OneToMany(mappedBy = "recipe", cascade = ALL)
+    @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
     private List<Procedure> procedures = new ArrayList<>();
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
     private List<CommentModel> comments = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel user;
-
 }
