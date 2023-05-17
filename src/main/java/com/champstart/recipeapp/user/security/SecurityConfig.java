@@ -62,7 +62,6 @@ public class SecurityConfig{
                 .antMatchers("/login", "/register", "/reset-password").anonymous()
                 .antMatchers("/css/**", "/js/**").permitAll()
                 .antMatchers("/home", "/recipes/**", "/comments/**", "/search/**", "/view-profile/**").authenticated()
-//                .and().authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
