@@ -56,7 +56,6 @@ public class CommentController {
     }
 
 
-
     @PostMapping("/comments/update/{id}")
     public String updateComment(@PathVariable("id") Long id, @Valid @ModelAttribute("comment") CommentDTO commentDTO, Model model, Principal principal) {
         List<CommentDTO> comments = commentService.getCommentById(id);
