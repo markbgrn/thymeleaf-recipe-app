@@ -61,9 +61,6 @@ public class RecipeController {
     }
     @PostMapping("/recipes/new")
     public String saveRecipe(@Valid @ModelAttribute("recipe") RecipeDTO recipeDTO, @ModelAttribute("categories") CategoryDTO categoryDTO, BindingResult bindingResult, Model model){
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
-        System.out.println(recipeDTO);
-        System.out.println("~~~~~~~~~~~~~~~~~~~");
         if (bindingResult.hasErrors()){
             List<CategoryDTO> categories = categoryService.findAllCategories();
             model.addAttribute("categories", categories);
