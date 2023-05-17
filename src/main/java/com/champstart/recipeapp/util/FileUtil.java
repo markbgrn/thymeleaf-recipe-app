@@ -1,19 +1,34 @@
 package com.champstart.recipeapp.util;
 
-import com.champstart.recipeapp.user.util.FileUploadUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class FileUtil {
     public static final String PROFILE_PHOTOS_PATH = "src/main/resources/static/images/profile";
-    public static boolean saveFile(String uploadDir, String fileName, MultipartFile file) {
+
+    public static boolean saveFile(String uploadDir, String fileName,
+                                MultipartFile multipartFile)  {
+        Path uploadPath = Paths.get(uploadDir);
         boolean result = false;
-        try {
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
 
         return result;
@@ -32,5 +47,17 @@ public class FileUtil {
         }
 
         return extension;
+    }
+
+    public static byte[] getFileFromFileSystem(String dirPath, String filename) {
+        Path resolvedPath = Paths.get(dirPath);
+        byte[] image = new byte[0];
+        try {
+            image = FileUtils.readFileToByteArray(new File(resolvedPath + "/" + filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
     }
 }

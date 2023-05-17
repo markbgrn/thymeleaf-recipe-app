@@ -11,24 +11,29 @@ import com.champstart.recipeapp.user.service.EmailService;
 import com.champstart.recipeapp.user.service.RegistrationService;
 import com.champstart.recipeapp.user.service.ResetPasswordService;
 import com.champstart.recipeapp.user.service.UserService;
-import com.champstart.recipeapp.user.util.FileUploadUtil;
 import com.champstart.recipeapp.util.FileUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 
@@ -40,14 +45,17 @@ public class UserController {
     private final ResetPasswordService resetPasswordService;
     private final SecurityUtil securityUtil;
 
+    private final ServletContext servletContext;
+
 
     @Autowired
-    public UserController(UserService userService, RegistrationService registrationService, EmailService emailService, ResetPasswordService resetPasswordService, SecurityUtil securityUtil) {
+    public UserController(UserService userService, RegistrationService registrationService, EmailService emailService, ResetPasswordService resetPasswordService, SecurityUtil securityUtil, ServletContext servletContext) {
         this.userService = userService;
         this.registrationService = registrationService;
         this.emailService = emailService;
         this.resetPasswordService = resetPasswordService;
         this.securityUtil = securityUtil;
+        this.servletContext = servletContext;
     }
     @GetMapping("/register")
     public String createUserForm(Model model) {
@@ -178,5 +186,11 @@ public class UserController {
 
         model.addAttribute("userProfile", userProfile);
         return "user-view-profile";
+    }
+
+    @GetMapping("/images/profile/{filename}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) {
+        byte[] image = FileUtil.getFileFromFileSystem(FileUtil.PROFILE_PHOTOS_PATH, filename);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
     }
 }
