@@ -11,6 +11,7 @@ import com.champstart.recipeapp.user.repository.UserRepository;
 import com.champstart.recipeapp.user.service.UserService;
 import com.champstart.recipeapp.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,28 +51,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel mapToUser(UserDto userDto) {
-        return null;
-    }
-
-    @Override
     public UserModel findByVerificationId(String verificationId) {
         return userRepository.findByVerificationId(verificationId);
     }
 
     @Override
-    public void updatePassword(UserDto userDto, String newPassword) {
+    public UserModel updatePassword(UserDto userDto, String newPassword) {
         userDto.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(UserMapper.mapToUser(userDto));
+        UserModel userModel = UserMapper.mapToUser(userDto);
+        return userRepository.save(userModel);
     }
 
+    @Override
     public UserModel updateProfile(UserModel userModel, String firstName, String lastName, String photoPath) {
         userModel.setFirstName(firstName);
         userModel.setLastName(lastName);
         userModel.setPhotoPath(photoPath);
 
-
-        return saveUser(UserMapper.mapToUserDto(userModel));
-
+        return userRepository.save(userModel);
     }
 }
