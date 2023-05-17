@@ -71,7 +71,7 @@ public class RecipeController {
             return "view/recipe/recipe-create";
         }
 
-        recipeService.createRecipe(recipeDTO.getCategory().getId(), recipeDTO);
+        recipeService.createRecipe(recipeDTO);
         return "redirect:/recipes";
     }
 

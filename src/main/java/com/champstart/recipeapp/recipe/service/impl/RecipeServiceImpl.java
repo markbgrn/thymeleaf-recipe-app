@@ -1,6 +1,5 @@
 package com.champstart.recipeapp.recipe.service.impl;
 
-import com.champstart.recipeapp.category.model.Category;
 import com.champstart.recipeapp.category.repository.CategoryRepository;
 import com.champstart.recipeapp.exception.NotFoundException;
 import com.champstart.recipeapp.recipe.dto.RecipeDTO;
@@ -48,14 +47,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe createRecipe(Long id,RecipeDTO recipeDTO) {
-        Category category = categoryRepository.findById(id).get();
+    public void createRecipe(RecipeDTO recipeDTO) {
         Long user = securityUtil.getUserModel().getId();
         UserModel userId = userRepository.findById(user).get();
         Recipe recipe = mapToRecipeEntity(recipeDTO);
         recipe.setUser(userId);
-        recipe.setCategory(category);
-        return recipeRepository.save(recipe);
+        recipeRepository.save(recipe);
     }
 
     @Override
