@@ -30,19 +30,30 @@
                         <div class="small text-muted" th:text="${recipe.recipeDescription}"></div>
                     </div>
                 </div>
-
-                <div class="card mb-4"  th:each="comment : ${recipe.comments}">
+                <div class="card mb-4" th:each="comment : ${recipe.comments}">
                     <div class="card-body">
                         <h6 class="card-title" th:text="|${comment.user.firstName} ${comment.user.lastName} |"></h6>
 
                         <div>
-                            <p th:text="${#temporals.format(comment.createdOn , 'MMMM-dd-yyyy hh:mm:a') }"></p>
+                            <p th:text="${#temporals.format(comment.UpdatedOn, 'MMMM-dd-yyyy hh:mm:a')}"></p>
                         </div>
-
-
                         <div>
                             <p th:text="${comment.comment}"></p>
                         </div>
+                        <form th:action="@{/comments/delete/{id}}" th:method="post">
+                            <input type="hidden" name="id" th:value="${comment.id}" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+                        <form th:action="@{/comments/update/{id}(id=${comment.id})}" th:method="post">
+                        <div class="form-group">
+                                <input type="hidden" name="id" th:value="${comment.id}" />
+                                <textarea class="form-control" rows="3" name="comment" th:text="${comment.comment}"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+
                     </div>
                 </div>
 
@@ -59,62 +70,6 @@
                         </form>
                     </div>
                 </div>
-
-                <!-- Nested row for non-featured blog posts-->
-                <div class="row">
-                    <!--                    <div class="col-lg-6">-->
-                    <!--                        &lt;!&ndash; Blog post&ndash;&gt;-->
-                    <!--                        <div class="card mb-4">-->
-                    <!--                            <a href="#!"><img class="card-img-top"-->
-                    <!--                                              src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..."/></a>-->
-                    <!--                            <div class="card-body">-->
-                    <!--                                <div class="small text-muted">January 1, 2023</div>-->
-                    <!--                                <h2 class="card-title h4">Post Title</h2>-->
-                    <!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-                    <!--                                    Reiciendis aliquid atque, nulla.</p>-->
-                    <!--                                <a class="btn btn-primary" href="#!">Read more →</a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; Blog post&ndash;&gt;-->
-                    <!--                        <div class="card mb-4">-->
-                    <!--                            <a href="#!"><img class="card-img-top"-->
-                    <!--                                              src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..."/></a>-->
-                    <!--                            <div class="card-body">-->
-                    <!--                                <div class="small text-muted">January 1, 2023</div>-->
-                    <!--                                <h2 class="card-title h4">Post Title</h2>-->
-                    <!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-                    <!--                                    Reiciendis aliquid atque, nulla.</p>-->
-                    <!--                                <a class="btn btn-primary" href="#!">Read more →</a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="col-lg-6">-->
-                    <!--                        &lt;!&ndash; Blog post&ndash;&gt;-->
-                    <!--                        <div class="card mb-4">-->
-                    <!--                            <a href="#!"><img class="card-img-top"-->
-                    <!--                                              src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..."/></a>-->
-                    <!--                            <div class="card-body">-->
-                    <!--                                <div class="small text-muted">January 1, 2023</div>-->
-                    <!--                                <h2 class="card-title h4">Post Title</h2>-->
-                    <!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-                    <!--                                    Reiciendis aliquid atque, nulla.</p>-->
-                    <!--                                <a class="btn btn-primary" href="#!">Read more →</a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; Blog post&ndash;&gt;-->
-                    <!--                        <div class="card mb-4">-->
-                    <!--                            <a href="#!"><img class="card-img-top"-->
-                    <!--                                              src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..."/></a>-->
-                    <!--                            <div class="card-body">-->
-                    <!--                                <div class="small text-muted">January 1, 2023</div>-->
-                    <!--                                <h2 class="card-title h4">Post Title</h2>-->
-                    <!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-                    <!--                                    Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>-->
-                    <!--                                <a class="btn btn-primary" href="#!">Read more →</a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                </div>
                 <!-- Pagination-->
                 <nav aria-label="Pagination">
                     <hr class="my-0"/>
@@ -130,42 +85,6 @@
                     </ul>
                 </nav>
             </div>
-            <!-- Side widgets-->
-            <div class="col-lg-4">
-                <!-- Search widget-->
-                <!--                <div class="card mb-4">-->
-                <!--                    <div class="card-header">Search</div>-->
-                <!--                    <div class="card-body">-->
-                <!--                        <div class="input-group">-->
-                <!--                            <input class="form-control" type="text" placeholder="Enter search term..."-->
-                <!--                                   aria-label="Enter search term..." aria-describedby="button-search"/>-->
-                <!--                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <!-- Categories widget-->
-                <!--                <div class="card mb-4">-->
-                <!--                    <div class="card-header">Categories</div>-->
-                <!--                    <div class="card-body">-->
-                <!--                        <div class="row">-->
-                <!--                            <div class="col-sm-6">-->
-                <!--                                <ul class="list-unstyled mb-0">-->
-                <!--                                    <li><a href="#!">Web Design</a></li>-->
-                <!--                                    <li><a href="#!">HTML</a></li>-->
-                <!--                                    <li><a href="#!">Freebies</a></li>-->
-                <!--                                </ul>-->
-                <!--                            </div>-->
-                <!--                            <div class="col-sm-6">-->
-                <!--                                <ul class="list-unstyled mb-0">-->
-                <!--                                    <li><a href="#!">JavaScript</a></li>-->
-                <!--                                    <li><a href="#!">CSS</a></li>-->
-                <!--                                    <li><a href="#!">Tutorials</a></li>-->
-                <!--                                </ul>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <!-- Side widget-->
                 <div class="card mb-4">
                     <div class="card-header" style="text-transform: uppercase">Ingredients</div>
                     <div class="card-body">

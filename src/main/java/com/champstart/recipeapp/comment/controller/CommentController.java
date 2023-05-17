@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.champstart.recipeapp.user.security.SecurityUtil.*;
@@ -54,17 +56,37 @@ public class CommentController {
     }
 
 
-    @PutMapping("/comments/{id}")
-    public String updateComment(@PathVariable("id") Long id, @ModelAttribute("commentDTO") CommentDTO commentDTO, Model model){
-        commentDTO.setId(id);
-        commentService.updateComment(commentDTO);
-        return "view/recipe/recipe-detail";
+
+    @PostMapping("/comments/update/{id}")
+    public String updateComment(@PathVariable("id") Long id, @Valid @ModelAttribute("comment") CommentDTO commentDTO, Model model, Principal principal) {
+        List<CommentDTO> comments = commentService.getCommentById(id);
+        CommentDTO comment = comments.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        if (comment == null) {
+            System.out.println("User is not authorized to edit the comment");
+        } else {
+            comment.setUpdatedOn(LocalDateTime.now());
+            comment.setComment(commentDTO.getComment());
+            commentService.updateComment(id,commentDTO);
+        }
+        return "redirect:/view/recipe/recipe-detail";
     }
 
-    @DeleteMapping("/comments/{id}")
-    public String deleteComment(@PathVariable("id") Long id){
-        commentService.deleteComment(id);
-        return "view/recipe/recipe-detail";
+    @PostMapping("/comments/delete/{id}")
+    public String deleteComment(@PathVariable("id") Long id, Model model) {
+        List<CommentDTO> comments = commentService.getCommentById(id);
+        CommentDTO comment = comments.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        if (comment == null) {
+            System.out.println("User is not authorized to delete the comment");
+        } else {
+            commentService.deleteComment(id);
+        }
+        return "redirect:/view/recipe/recipe-detail";
     }
 
     @GetMapping("/comments")
