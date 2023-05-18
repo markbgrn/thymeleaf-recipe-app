@@ -12,7 +12,6 @@ import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.security.SecurityUtil;
 import com.champstart.recipeapp.user.service.UserService;
 import com.champstart.recipeapp.util.FileUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
