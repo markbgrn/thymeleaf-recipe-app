@@ -1,33 +1,24 @@
 package com.champstart.recipeapp.user.service.impl;
 
-import com.champstart.recipeapp.user.dto.EditProfileDto;
-import com.champstart.recipeapp.user.dto.LoginFormDto;
-import com.champstart.recipeapp.user.dto.NewPasswordFormDto;
 import com.champstart.recipeapp.user.dto.UserDto;
 import com.champstart.recipeapp.user.dto.mapper.UserMapper;
 import com.champstart.recipeapp.user.model.UserModel;
-import com.champstart.recipeapp.user.repository.RoleRepository;
 import com.champstart.recipeapp.user.repository.UserRepository;
 import com.champstart.recipeapp.user.service.UserService;
-import com.champstart.recipeapp.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository usersRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = usersRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 

@@ -1,6 +1,5 @@
 package com.champstart.recipeapp.user.security;
 import com.champstart.recipeapp.user.dto.UserDto;
-import com.champstart.recipeapp.user.model.Role;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import java.util.Collections;
 
 public class CustomUsersDetailsServiceTest {
 
@@ -50,9 +48,6 @@ public class CustomUsersDetailsServiceTest {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setIsVerified(true);
-        Role role = new Role();
-        role.setName("Client");
-        user.setRoles(Collections.singletonList(role));
 
         when(userService.findByEmail(userDto.getEmail())).thenReturn(user);
 
@@ -64,8 +59,6 @@ public class CustomUsersDetailsServiceTest {
         assertTrue(userDetails.isAccountNonExpired());
         assertTrue(userDetails.isAccountNonLocked());
         assertTrue(userDetails.isCredentialsNonExpired());
-        assertEquals(1, userDetails.getAuthorities().size());
-        assertEquals("Client", userDetails.getAuthorities().iterator().next().getAuthority());
 
         verify(userService, times(1)).findByEmail(userDto.getEmail());
     }
