@@ -37,12 +37,12 @@ public class LoginController {
         return "redirect:/recipes";
     }
 
-    @GetMapping("/home")
-    public String homePage(Model model){
-        String user = SecurityUtil.getSessionUser();
-        model.addAttribute("user", user);
-        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
-        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
-        return "home";
-    }
+//    @GetMapping("/home")
+//    public String homePage(Model model){
+//        String user = SecurityUtil.getSessionUser();
+//        model.addAttribute("user", user);
+//        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
+//        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
+//        return "home";
+//    }
 }
