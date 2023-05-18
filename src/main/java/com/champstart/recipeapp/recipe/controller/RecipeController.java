@@ -71,6 +71,10 @@ public class RecipeController {
     @GetMapping("/recipes/{id}")
     public String recipeDetail(@PathVariable("id") Long id, Model model){
         RecipeDTO recipeDTO = recipeService.getRecipeById(id);
+        UserModel user = new UserModel();
+        String email = SecurityUtil.getSessionUser();
+        user = userService.findByEmail(email);
+        model.addAttribute("user", user);
         model.addAttribute("recipe", recipeDTO);
         return "view/recipe/recipe-detail";
     }
