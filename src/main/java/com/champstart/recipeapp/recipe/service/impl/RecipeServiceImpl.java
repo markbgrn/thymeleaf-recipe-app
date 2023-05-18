@@ -1,8 +1,11 @@
 package com.champstart.recipeapp.recipe.service.impl;
 
-import com.champstart.recipeapp.category.model.Category;
 import com.champstart.recipeapp.category.repository.CategoryRepository;
 import com.champstart.recipeapp.exception.NotFoundException;
+import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
+import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
+import com.champstart.recipeapp.ingredient.model.Ingredient;
+import com.champstart.recipeapp.procedure.dto.mapper.ProcedureMapper;
 import com.champstart.recipeapp.recipe.dto.RecipeDTO;
 import com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper;
 import com.champstart.recipeapp.recipe.model.Recipe;
@@ -48,14 +51,27 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe createRecipe(Long id,RecipeDTO recipeDTO) {
-        Category category = categoryRepository.findById(id).get();
+    public void createRecipe(RecipeDTO recipeDTO) {
         Long user = securityUtil.getUserModel().getId();
         UserModel userId = userRepository.findById(user).get();
+        Ingredient ingredient = new Ingredient();
         Recipe recipe = mapToRecipeEntity(recipeDTO);
+        recipeDTO.getIngredients().forEach(ingredientDTO -> {
+            ingredientDTO.setRecipe(recipe);
+        });
+        recipeDTO.getProcedures().forEach(procedureDTO -> {
+            procedureDTO.setRecipe(recipe);
+        });
         recipe.setUser(userId);
-        recipe.setCategory(category);
-        return recipeRepository.save(recipe);
+        recipe.setIngredients(recipeDTO.getIngredients()
+                .stream()
+                .map(IngredientMapper::mapToIngredientEntity)
+                .collect(Collectors.toList()));
+        recipe.setProcedures(recipeDTO.getProcedures()
+                .stream()
+                .map(ProcedureMapper::mapToProcedureEntity)
+                .collect(Collectors.toList()));
+        recipeRepository.save(recipe);
     }
 
     @Override
@@ -78,6 +94,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Recipe> searchRecipes(String recipeName) {
+        return recipeRepository.findByRecipeTitleContainingIgnoreCase(recipeName);
+    }
+
+    @Override
+    public List<RecipeDTO> findByUserId(Long id) {
+        List<Recipe> recipes = recipeRepository.findByUserId(id);
+        return recipes.stream()
+                .map(RecipeMapper::mapToRecipeDTO)
+                .collect(Collectors.toList());
     }
 
 

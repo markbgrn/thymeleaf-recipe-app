@@ -14,5 +14,7 @@ import lombok.NoArgsConstructor;
 public class IngredientDTO{
     private Long id;
     private String ingredients;
+    private Double quantity;
+    private String unit;
     private Recipe recipe;
 }

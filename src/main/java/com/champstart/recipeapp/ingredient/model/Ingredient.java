@@ -1,10 +1,7 @@
 package com.champstart.recipeapp.ingredient.model;
 
 import com.champstart.recipeapp.recipe.model.Recipe;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,7 +18,9 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String recipeIngredients;
+    private String ingredients;
+    private Double quantity;
+    private String unit;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "recipe_id",nullable = false)
     private Recipe recipe;

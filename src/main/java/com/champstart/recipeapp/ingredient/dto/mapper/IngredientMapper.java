@@ -12,7 +12,9 @@ public class IngredientMapper {
     public static Ingredient mapToIngredientEntity(IngredientDTO ingredientDTO) {
         return Ingredient.builder()
                 .id(ingredientDTO.getId())
-                .recipeIngredients(ingredientDTO.getIngredients())
+                .ingredients(ingredientDTO.getIngredients())
+                .quantity(ingredientDTO.getQuantity())
+                .unit(ingredientDTO.getUnit())
                 .recipe(ingredientDTO.getRecipe())
                 .build();
     }
@@ -20,7 +22,9 @@ public class IngredientMapper {
     public static IngredientDTO mapToIngredientDTO(Ingredient ingredient) {
         return IngredientDTO.builder()
                 .id(ingredient.getId())
-                .ingredients(ingredient.getRecipeIngredients())
+                .ingredients(ingredient.getIngredients())
+                .quantity(ingredient.getQuantity())
+                .unit(ingredient.getUnit())
                 .recipe(ingredient.getRecipe())
                 .build();
     }

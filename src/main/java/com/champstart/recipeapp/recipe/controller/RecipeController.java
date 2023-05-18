@@ -2,6 +2,8 @@ package com.champstart.recipeapp.recipe.controller;
 
 import com.champstart.recipeapp.category.dto.CategoryDTO;
 import com.champstart.recipeapp.category.service.CategoryService;
+import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
+import com.champstart.recipeapp.ingredient.service.IngredientService;
 import com.champstart.recipeapp.recipe.dto.RecipeDTO;
 import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.service.RecipeService;
@@ -12,27 +14,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RecipeController {
     private final RecipeService recipeService;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService, CategoryService categoryService) {
+    public RecipeController(RecipeService recipeService, UserService userService, CategoryService categoryService, IngredientService ingredientService) {
         this.recipeService = recipeService;
         this.userService = userService;
         this.categoryService = categoryService;
+        this.ingredientService = ingredientService;
     }
-    @GetMapping("/recipes")
+    @GetMapping("/home")
     public String listRecipes(Model model){
         UserModel user = new UserModel();
         List<RecipeDTO> recipes = recipeService.findAllRecipes();
@@ -43,8 +45,19 @@ public class RecipeController {
         }
         model.addAttribute("user", user);
         model.addAttribute("recipes", recipes);
-        return "view/recipe/recipe-list";
+        return "home";
     }
+    @GetMapping("/my-recipes")
+    public String listMyRecipes(Model model) {
+        UserModel user = new UserModel();
+        String email = SecurityUtil.getSessionUser();
+        user = userService.findByEmail(email);
+        List<RecipeDTO> myRecipes = recipeService.findByUserId(user.getId());
+
+        model.addAttribute("recipes", myRecipes);
+        return "view/recipe/my-recipes";
+    }
+
     @GetMapping("/recipes/{id}")
     public String recipeDetail(@PathVariable("id") Long id, Model model){
         RecipeDTO recipeDTO = recipeService.getRecipeById(id);
@@ -75,7 +88,21 @@ public class RecipeController {
             return "view/recipe/recipe-create";
         }
 
-        recipeService.createRecipe(recipeDTO.getCategory().getId(), recipeDTO);
-        return "redirect:/recipes";
+        recipeService.createRecipe(recipeDTO);
+        return "redirect:/my-recipes";
+    }
+
+    @GetMapping("/recipes/search")
+    public String searchRecipes(@RequestParam("q") String recipeName, Model model) {
+        List<Recipe> recipes = recipeService.searchRecipes(recipeName);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("recipeName", recipeName);
+        return "view/recipe/recipe-search";
+    }
+
+    @GetMapping("/search")
+    public String searchForm(Model model) {
+        model.addAttribute("recipeName", "");
+        return "view/search/search";
     }
 }

@@ -1,49 +1,9 @@
-<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout}">
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout}">
 <head>
     <title>Recipe Create</title>
-    <style>
-    .user-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .user-info img {
-        margin-right: 10px;
-    }
-
-    .recipe-container {
-        display: flex;
-        flex-direction: column;
-
-    }
-
-    .recipe-title {
-        text-transform: uppercase;
-    }
-
-    .recipe-description {
-        margin-bottom: 20px;
-    }
-
-    .side-widgets {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .side-widget {
-        width: 300px;
-        margin-bottom: 20px;
-    }
-
-    .comment-section {
-        margin-top: 20px;
-    }
-
-    .pagination-section {
-        margin-top: 20px;
-    }
-
-    </style>
 </head>
 <body class="d-flex flex-column">
 <!-- Page Content-->
@@ -53,8 +13,8 @@
     <div class="container">
         <div class="row">
             <!-- Blog entries-->
-            <div class="recipe-container">
-                <div class="row">
+                <div class="recipe-container">
+                    <div class="row">
                     <div class="card mb-4 col-6" style="height:fit-content">
                         <div class="card-body">
                             <h2 class="card-title recipe-title" th:text="${recipe.recipeTitle}"></h2>
@@ -90,7 +50,56 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
+
+<!--                    <div class="comment-section">-->
+<!--                        <div class="card mb-5" th:each="comment : ${recipe.comments}">-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="user-info">-->
+<!--                                    <div th:if="${!#strings.isEmpty(comment.user.photoPath) || comment.user.photoPath != null}" style="height: 50px; width: 50px">-->
+<!--                                        <img class="rounded img-thumbnail" style="border-radius: 100rem!important;" th:src="@{/images/profile/{photoPath}(photoPath=${comment.user.photoPath})}" />-->
+<!--                                    </div>-->
+<!--                                    <div th:unless="${!#strings.isEmpty(comment.user.photoPath) || comment.user.photoPath != null}" style="height: 50px; width: 50px; background-color:#e9e9e9; border-radius: 100rem!important;">-->
+<!--                                    </div>-->
+<!--                                    <div class="name">-->
+<!--                                        <h6 class="card-title" th:text="|${#strings.capitalize(comment.user.firstName)} ${#strings.capitalize(comment.user.lastName)} |"></h6>-->
+<!--                                        <p th:text="${#temporals.format(comment.createdOn , 'MMMM-dd-yyyy hh:mm:a') }"></p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <p th:text="${comment.comment}"></p>-->
+
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="side-widgets">-->
+<!--                            <div class="side-widget">-->
+<!--                                <div class="card mb-6">-->
+<!--                                    <div class="card-header" style="text-transform: uppercase">Category</div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <p class="lead mb-0" th:text="${recipe.category.categoryName}"></p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="side-widget">-->
+<!--                                <div class="card mb-6">-->
+<!--                                    <div class="card-header" style="text-transform: uppercase">Ingredients</div>-->
+<!--                                    <div class="card-body" th:each="ingredient : ${recipe.ingredients}">-->
+<!--                                        <p th:text="|• ${ingredient.ingredients}|"></p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="side-widget">-->
+<!--                                <div class="card mb-6">-->
+<!--                                    <div class="card-header" style="text-transform: uppercase">Procedure</div>-->
+<!--                                    <div class="card-body" th:each="step : ${recipe.procedures}">-->
+<!--                                        <p th:text="|• ${step.step}|"></p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                    </div>-->
 
                 <div class="comment-section">
                     <div class="card mb-5" th:each="comment : ${recipe.comments}">
@@ -109,13 +118,13 @@
                         </div>
                         <p th:text="${comment.comment}"></p>
                         <div th:if="${comment.user.id == user.id}">
-
                             <form  th:action="@{/comments/delete/{id}(id=${comment.id})}" th:method="post">
                                 <input type="hidden" name="id" th:value="${comment.id}" />
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
 
+                        <div th:if="${comment.user.id == user.id}">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editComment">
                             Update
@@ -147,42 +156,24 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
                     </div>
+
                 </div>
 
-                <div class="card mb-5">
-                    <div class="card-body">
-                        <form role="form" method="post" th:action="@{/comments/save/{recipeID}(recipeID=${recipe.id})}" th:object="${comment}">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="userComment" class="card-title">Comment</label>
-                                    <textarea class="form-control" id="userComment" name="comment" rows="3"></textarea>
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <form role="form" method="post" th:action="@{/comments/save/{recipeID}(recipeID=${recipe.id})}" th:object="${comment}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="userComment" class="card-title">Comment</label>
+                                        <textarea class="form-control" id="userComment" name="comment" rows="3"></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Comment</button>
-                        </form>
+                                <button type="submit" class="btn btn-primary">Comment</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
-                <div class="pagination-section">
-                    <nav aria-label="Pagination">
-                        <hr class="my-0"/>
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-                            </li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
         </div>
     </div>
 </section>

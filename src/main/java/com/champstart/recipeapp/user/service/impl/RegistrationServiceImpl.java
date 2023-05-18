@@ -7,6 +7,7 @@ import com.champstart.recipeapp.user.service.EmailService;
 import com.champstart.recipeapp.user.service.RegistrationService;
 import com.champstart.recipeapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,6 +19,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     private UserService userService;
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void validateRegistrationForm(UserDto userDto, BindingResult result) {
         if(userDto.isPasswordNotEqualToConfirmPassword()) {
@@ -41,6 +45,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     public void register(UserDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setVerificationId(passwordEncoder.encode(userDto.getEmail()));
         userService.saveUser(userDto);
         emailService.sendEmail(userDto.getEmail(), "Verify your RecipeHub Account", emailService.contructVerificationHtml(userDto.getVerificationId()));
     }

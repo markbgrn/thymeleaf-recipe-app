@@ -33,17 +33,12 @@ public class CommentController {
     public CommentController(CommentService commentService, UserService userService, RecipeService recipeService, SecurityUtil securityUtil) {
         this.commentService = commentService;
         this.userService = userService;
-
         this.recipeService = recipeService;
         this.securityUtil = securityUtil;
     }
 
     @PostMapping("/comments/save/{recipeID}")
     public String saveComment(@Valid @ModelAttribute("comment") CommentDTO commentDTO, BindingResult bindingResult, @PathVariable Long recipeID, Model model){
-        UserModel user = new UserModel();
-        String firstName = getSessionUser();
-        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
-        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
         model.addAttribute("comment", commentDTO);
         if (recipeID != null) {
             commentService.saveComment(recipeID, commentDTO);
@@ -110,11 +105,15 @@ public class CommentController {
 
     @GetMapping("/comments")
     public String getCommentsByRecipeid(@PathVariable("recipeId") Long recipeId, Model model){
-        UserModel user = new UserModel();
         List<CommentDTO> comments = commentService.findAllComments();
-        String firstName = getSessionUser();
-        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
-        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
+        UserModel userModel = securityUtil.getUserModel();
+        String firstName = userModel.getFirstName();
+        String lastName = userModel.getLastName();
+        String photoPath = userModel.getPhotoPath();
+
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("photoPath", photoPath);
         model.addAttribute("userComment", comments);
         return "view/recipe/recipe-detail";
     }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit profile</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <h1>Edit profile</h1>
+            <form role="form" method="post" th:action="@{/edit-profile}" th:object="${editProfileDto}" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="firstName"
+                                name="firstName"
+                                th:field="*{firstName}"
+                                placeholder="First name"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('firstName')}" class="text-danger" th:errors="*{firstName}"></p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="lastName"
+                                name="lastName"
+                                th:field="*{lastName}"
+                                placeholder="Last name"
+                                maxlength=256>
+                        <p th:if="${#fields.hasErrors('lastName')}" class="text-danger" th:errors="*{lastName}"></p>
+                    </div>
+                </div><div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="photo">Profile Photo</label>
+                        <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg" th:field="*{photo}"/>
+
+                    </div>
+                </div>
+
+                <div>
+                    <a class="btn btn-outline-secondary" th:href="@{/view-profile}"role="button">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

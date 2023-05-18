@@ -68,4 +68,38 @@ class UserServiceImplTest {
         UserModel userModel = userService.findByEmail(userDto.getEmail());
         assertNotNull(userModel);
     }
+
+    @Test
+    void updatePassword() {
+        UserDto mockUserDto = mock(UserDto.class);
+        UserModel mockUserModel = mock(UserModel.class);
+        String newPassword = "newpassword";
+        UserModel resultUserModel = null;
+
+        when(passwordEncoder.encode(anyString())).thenReturn(newPassword);
+        when(userRepository.save(mockUserModel)).thenReturn(mockUserModel);
+
+        try (MockedStatic<UserMapper> userMapper = mockStatic(UserMapper.class)) {
+            userMapper.when(() -> UserMapper.mapToUser(mockUserDto)).thenReturn(mockUserModel);
+            resultUserModel = userService.updatePassword(mockUserDto, newPassword);
+        }
+
+        assertNotNull(resultUserModel);
+        verify(mockUserDto, times(1)).setPassword(newPassword);
+    }
+
+    @Test
+    void updateProfile() {
+        UserModel userModel = mock(UserModel.class);
+
+        when(userRepository.save(userModel)).thenReturn(userModel);
+
+        UserModel resultUserModel = userService.updateProfile(userModel, "Updated First Name", "Updated Last Name", "Updated Photo Path");
+
+        verify(userModel, times(1)).setFirstName("Updated First Name");
+        verify(userModel, times(1)).setLastName("Updated Last Name");
+        verify(userModel, times(1)).setPhotoPath("Updated Photo Path");
+
+        assertNotNull(resultUserModel);
+    }
 }
