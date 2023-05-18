@@ -14,4 +14,6 @@ public interface RecipeService {
     void deleteRecipe(Long id);
 
     List<Recipe> searchRecipes(String recipeName);
+
+    List<RecipeDTO> findByUserId(Long id);
 }

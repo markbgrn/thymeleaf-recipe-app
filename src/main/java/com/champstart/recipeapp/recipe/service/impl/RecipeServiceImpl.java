@@ -82,5 +82,13 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findByRecipeTitleContainingIgnoreCase(recipeName);
     }
 
+    @Override
+    public List<RecipeDTO> findByUserId(Long id) {
+        List<Recipe> recipes = recipeRepository.findByUserId(id);
+        return recipes.stream()
+                .map(RecipeMapper::mapToRecipeDTO)
+                .collect(Collectors.toList());
+    }
+
 
 }

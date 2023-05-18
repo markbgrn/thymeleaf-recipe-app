@@ -3,7 +3,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{/layout}">
 <head>
-    <title>Recipe List</title>
+    <title>My Recipes</title>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
@@ -11,7 +11,7 @@
     <section layout:fragment="body" class="py-5">
         <div class="container px-5 my-5">
             <div class="text-center mb-5">
-                <h1 class="fw-normal" style="text-transform: uppercase">Available Recipes</h1>
+                <h1 class="fw-normal" style="text-transform: uppercase">My Recipes</h1>
             </div>
             <div class="row gx-5">
                 <div th:each="recipe : ${recipes}" class="col-lg-6 mb-2">
@@ -21,8 +21,7 @@
                            th:href="@{/recipes/{id}(id=${recipe.id})}"></a>
                     </div>
                     <a class="btn btn-primary" th:href="@{/recipes/{id}(id=${recipe.id})}">View</a>
-
-                    <a th:if="${recipe.user.id == user.id}" class="btn btn-outline-secondary" th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
                 </div>
             </div>
         </div>

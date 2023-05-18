@@ -32,7 +32,7 @@ public class RecipeController {
         this.userService = userService;
         this.categoryService = categoryService;
     }
-    @GetMapping("/recipes")
+    @GetMapping("/home")
     public String listRecipes(Model model){
         UserModel user = new UserModel();
         List<RecipeDTO> recipes = recipeService.findAllRecipes();
@@ -43,8 +43,19 @@ public class RecipeController {
         }
         model.addAttribute("user", user);
         model.addAttribute("recipes", recipes);
-        return "view/recipe/recipe-list";
+        return "home";
     }
+    @GetMapping("/my-recipes")
+    public String listMyRecipes(Model model) {
+        UserModel user = new UserModel();
+        String email = SecurityUtil.getSessionUser();
+        user = userService.findByEmail(email);
+        List<RecipeDTO> myRecipes = recipeService.findByUserId(user.getId());
+
+        model.addAttribute("recipes", myRecipes);
+        return "view/recipe/my-recipes";
+    }
+
     @GetMapping("/recipes/{id}")
     public String recipeDetail(@PathVariable("id") Long id, Model model){
         RecipeDTO recipeDTO = recipeService.getRecipeById(id);
@@ -72,7 +83,7 @@ public class RecipeController {
         }
 
         recipeService.createRecipe(recipeDTO);
-        return "redirect:/recipes";
+        return "redirect:/my-recipes";
     }
 
     @GetMapping("/recipes/search")
