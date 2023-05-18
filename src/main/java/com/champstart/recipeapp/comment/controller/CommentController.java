@@ -64,11 +64,15 @@ public class CommentController {
 
     @GetMapping("/comments")
     public String getCommentsByRecipeid(@PathVariable("recipeId") Long recipeId, Model model){
-        UserModel user = new UserModel();
         List<CommentDTO> comments = commentService.findAllComments();
-        String firstName = getSessionUser();
-        model.addAttribute("firstName", securityUtil.getUserModel().getFirstName());
-        model.addAttribute("lastName", securityUtil.getUserModel().getLastName());
+        UserModel userModel = securityUtil.getUserModel();
+        String firstName = userModel.getFirstName();
+        String lastName = userModel.getLastName();
+        String photoPath = userModel.getPhotoPath();
+
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("photoPath", photoPath);
         model.addAttribute("userComment", comments);
         return "view/recipe/recipe-detail";
     }
