@@ -22,10 +22,48 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
     <title layout:title-pattern="$CONTENT_TITLE  - $LAYOUT_TITLE">RecipeHub</title>
+    <style>
+        .btn-primary {
+            background-color: #DF2E38!important;
+            border: 1px solid #DF2E38;
+        }
+        .btn-primary:hover {
+            background-color: #ff7474;!important
+            border: 1px solid #DF2E38;
+        }
+        .btn-primary:active {
+            background-color: #ff7474!important;
+            border: 1px solid #DF2E38;
+        }
+        .btn-primary:focus {
+            background-color: #ff7474!important;
+            border: 1px solid #DF2E38;
+        }
+        .btn-outline-primary {
+            background-color: white!important;
+            border: 1px solid #DF2E38;
+            color: #DF2E38;
+        }
+        .btn-outline-primary:hover {
+            background-color: #ff7474!important;
+            border: 1px solid #ff7474;
+            color: white;
+        }
+        .btn-outline-primary:active {
+            background-color: #ff7474!important;
+            border: 1px solid #ff7474;
+            color: white;
+        }
+        .btn-outline-primary:focus {
+            background-color: #ff7474!important;
+            border: 1px solid #ff7474;
+            color: white;
+        }
+    </style>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" th:href="@{/recipes}">RecipeHub</a>
+        <a class="navbar-brand" th:href="@{/home}">RecipeHub</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
