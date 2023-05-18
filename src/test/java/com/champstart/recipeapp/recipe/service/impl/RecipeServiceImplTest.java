@@ -47,11 +47,11 @@ class RecipeServiceImplTest {
 
         Ingredient ingredient1 = new Ingredient();
         ingredient1.setId(1L);
-        ingredient1.setRecipeIngredients("Ingredient 1");
+        ingredient1.setIngredients("Ingredient 1");
 
         Ingredient ingredient2 = new Ingredient();
         ingredient2.setId(2L);
-        ingredient2.setRecipeIngredients("Ingredient 2");
+        ingredient2.setIngredients("Ingredient 2");
 
         recipe.setIngredients(Arrays.asList(ingredient1, ingredient2));
 
@@ -102,7 +102,7 @@ class RecipeServiceImplTest {
 
         Ingredient ingredient1 = new Ingredient();
         ingredient1.setId(1L);
-        ingredient1.setRecipeIngredients("Ingredient 1");
+        ingredient1.setIngredients("Ingredient 1");
         ingredient1.setRecipe(recipe1);
         recipe1.getIngredients().add(ingredient1);
 
@@ -119,7 +119,7 @@ class RecipeServiceImplTest {
 
         Ingredient ingredient2 = new Ingredient();
         ingredient2.setId(2L);
-        ingredient2.setRecipeIngredients("Ingredient 2");
+        ingredient2.setIngredients("Ingredient 2");
         ingredient2.setRecipe(recipe2);
         recipe2.getIngredients().add(ingredient2);
 

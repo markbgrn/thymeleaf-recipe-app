@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +35,7 @@ public class CustomUsersDetailsService implements UserDetailsService {
                     user.getPassword(),
                     user.getIsVerified(),
                      true, true, true,
-                    user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))
-                    .collect(Collectors.toList())
-
+                    new ArrayList<SimpleGrantedAuthority>()
             );
 
             return authUser;

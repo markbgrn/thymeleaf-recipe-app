@@ -33,13 +33,6 @@ public class UserModel {
     @UpdateTimestamp
     private LocalDateTime updatedOn;
     private String photoPath;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
-    )
-    private List<Role> roles = new ArrayList<>();
     @OneToMany(mappedBy = "users")
     private List<CommentModel> comments;
 
