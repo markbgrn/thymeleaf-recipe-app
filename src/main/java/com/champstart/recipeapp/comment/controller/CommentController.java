@@ -52,26 +52,41 @@ public class CommentController {
         }
         RecipeDTO recipeDTO = recipeService.getRecipeById(recipeID);
         model.addAttribute("recipe", recipeDTO);
-        return "view/recipe/recipe-detail";
+        return "redirect:/recipes/" + recipeDTO.getId();
     }
 
 
     @PostMapping("/comments/update/{id}")
-    public String updateComment(@PathVariable("id") Long id, @Valid @ModelAttribute("comment") CommentDTO commentDTO, Model model, Principal principal) {
+    public String updateComment(@PathVariable("id") Long id, @Valid @ModelAttribute("comment") CommentDTO commentDTO, Model model) {
         List<CommentDTO> comments = commentService.getCommentById(id);
         CommentDTO comment = comments.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+
         if (comment == null) {
             System.out.println("User is not authorized to edit the comment");
-        } else {
-            comment.setUpdatedOn(LocalDateTime.now());
-            comment.setComment(commentDTO.getComment());
-            commentService.updateComment(id,commentDTO);
         }
-        return "redirect:/view/recipe/recipe-detail";
+        if (securityUtil.getUserModel().getId() != comment.getUser().getId()) {
+            System.out.println("User is not authorized to edit the comment");
+            Long recipeId = comment.getRecipe().getId();
+            return "redirect:/home";
+        }
+
+        UserModel user = new UserModel();
+        String email = SecurityUtil.getSessionUser();
+        user = userService.findByEmail(email);
+        model.addAttribute("user", user);
+
+        comment.setUpdatedOn(LocalDateTime.now());
+        comment.setComment(commentDTO.getComment());
+
+        commentService.updateComment(id, commentDTO);
+
+        Long recipeId = comment.getRecipe().getId();
+        return "redirect:/recipes/" + recipeId;
     }
+
 
     @PostMapping("/comments/delete/{id}")
     public String deleteComment(@PathVariable("id") Long id, Model model) {
@@ -82,10 +97,15 @@ public class CommentController {
                 .orElse(null);
         if (comment == null) {
             System.out.println("User is not authorized to delete the comment");
-        } else {
-            commentService.deleteComment(id);
         }
-        return "redirect:/view/recipe/recipe-detail";
+        if (securityUtil.getUserModel().getId() != comment.getUser().getId()) {
+            System.out.println("User is not authorized to delete the comment");
+            Long recipeId = comment.getRecipe().getId();
+            return "redirect:/home";
+        }
+        commentService.deleteComment(id);
+        Long recipeId = comment.getRecipe().getId();
+        return "redirect:/recipes/" + recipeId;
     }
 
     @GetMapping("/comments")
