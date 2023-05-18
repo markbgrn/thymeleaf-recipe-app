@@ -75,16 +75,16 @@
                             <div class="side-widget">
                                 <div class="card mb-6">
                                     <div class="card-header" style="text-transform: uppercase">Ingredients</div>
-                                    <div class="card-body">
-                                        <p class="lead mb-0" th:text="${recipe.ingredients}"></p>
+                                    <div class="card-body" th:each="ingredient : ${recipe.ingredients}">
+                                        <p th:text="|• ${ingredient.ingredients}|"></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="side-widget">
                                 <div class="card mb-6">
                                     <div class="card-header" style="text-transform: uppercase">Procedure</div>
-                                    <div class="card-body">
-                                        <p class="lead mb-0" th:text="${recipe.procedures}"></p>
+                                    <div class="card-body" th:each="step : ${recipe.procedures}">
+                                        <p th:text="|• ${step.step}|"></p>
                                     </div>
                                 </div>
                             </div>
