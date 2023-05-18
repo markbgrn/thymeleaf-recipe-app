@@ -28,6 +28,7 @@ public class Recipe {
     private Long id;
     private String recipeTitle;
     private String recipeDescription;
+    private String photoPath;
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
     @JoinColumn(name = "category_id",nullable = false)

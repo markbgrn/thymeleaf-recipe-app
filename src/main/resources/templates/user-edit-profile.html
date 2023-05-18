@@ -41,19 +41,18 @@
                                 maxlength=256>
                         <p th:if="${#fields.hasErrors('lastName')}" class="text-danger" th:errors="*{lastName}"></p>
                     </div>
-                </div><div class="form-row">
+                </div>
+                <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="photo">Profile Photo</label>
-                        <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg" th:field="*{photo}"/>
-
+                        <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
+                               th:field="*{photo}"/>
                     </div>
                 </div>
-
                 <div>
-                    <a class="btn btn-outline-secondary" th:href="@{/view-profile}"role="button">Cancel</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/view-profile}" role="button">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
-
             </form>
         </div>
     </section>

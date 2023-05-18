@@ -22,7 +22,6 @@ public class UserMapper {
     }
     public static UserModel mapToUser(UserDto userDto) {
         UserModel user = new UserModel();
-
         return UserModel.builder()
                 .id(userDto.getId())
                 .firstName(userDto.getFirstName())

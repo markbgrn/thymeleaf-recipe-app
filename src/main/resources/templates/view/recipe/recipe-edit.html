@@ -10,67 +10,147 @@
     <!-- Page Content-->
     <section layout:fragment="body" class="py-5">
         <div class="container">
-            <form role="form" method="post" th:action="@{/recipes/{id}/edit(id=${recipe.id})}" th:object="${recipe}">
-                <input type="hidden" th:field="*{id}">
+            <form role="form" method="post" th:action="@{/recipes/{id}/edit(id=${recipe.id})}" th:object="${recipe}"
+                  enctype="multipart/form-data" id="recipe-form">
+                <div class="form-row">
+                    <label for="photo">Recipe Photo</label>
+                    <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
+                           th:field="*{photo}"/>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="title">Recipe Name</label>
+                        <label for="recipeTitle">Recipe Title</label>
                         <input
                                 type="text"
                                 class="form-control"
-                                id="title"
-                                name="title"
-                                th:field="*{title}"
-                                placeholder="Recipe Name">
-                        <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
+                                id="recipeTitle"
+                                name="recipeTitle"
+                                th:field="*{recipeTitle}"
+                                placeholder="Recipe Title">
+                        <p th:if="${#fields.hasErrors('recipeTitle')}" class="text-danger" th:errors="*{title}"></p>
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="photoUrl">Recipe Photo</label>
-                        <input
-                                type="text"
+                        <label for="recipeDescription">Description</label>
+                        <textarea
                                 class="form-control"
-                                id="photoUrl"
-                                name="photoUrl"
-                                th:field="*{photoUrl}"
-                                placeholder="Photo Url">
-                        <p th:if="${#fields.hasErrors('photoUrl')}" class="text-danger" th:errors="*{photoUrl}"></p>
-
+                                id="recipeDescription"
+                                name="recipeDescription"
+                                th:field="*{recipeDescription}"
+                                rows="3">
+                         </textarea>
                     </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="ingredients">Ingredients</label>
-                    <textarea
-                            class="form-control"
-                            id="ingredients"
-                            name="ingredients"
-                            th:field="*{ingredients}"
-                            rows="3">
-                </textarea>
-                    <p th:if="${#fields.hasErrors('ingredients')}" class="text-danger" th:errors="*{ingredients}"></p>
+                <div class="form-row">
+                    <div class="form-group mb-6">
+                        <label for="category">Category</label>
+                        <select class="form-control"
+                                id="category"
+                                name="category">
+                            <option selected>Open this select menu</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                    th:text="${category.categoryName}" th:field="*{category}"></option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="procedure">Procedure</label>
-                    <textarea
-                            class="form-control"
-                            id="procedure"
-                            name="procedure"
-                            th:field="*{procedure}"
-                            rows="3">
-            </textarea>
-                    <p th:if="${#fields.hasErrors('procedure')}" class="text-danger" th:errors="*{procedure}"></p>
+                <div class="form-inline">
+                    <div class="form-group mb-2">
+                        <div id="ingredients">
+                            <div th:each="ingredient, ingredientStatus : *{ingredients}"
+                                 class="ingredient">
+                                <br>
+                                <input class="form-control mb-2" type="text"
+                                       th:field="*{ingredients[__${ingredientStatus.index}__].ingredients}"
+                                       placeholder="Ingredient Name" required>
+                                <input class="form-control mx-sm-3 mb-2" type="number"
+                                       th:field="*{ingredients[__${ingredientStatus.index}__].quantity}"
+                                       placeholder="Quantity" required>
+                                <input class="form-control mx-sm-3 mb-2" type="text"
+                                       th:field="*{ingredients[__${ingredientStatus.index}__].unit}"
+                                       placeholder="Unit" required>
+                                <input class="form-control mx-sm-3 mb-2" type="text"
+                                       th:field="*{ingredients[__${ingredientStatus.index}__].id}">
+                                <button type="button" class="remove-ingredient btn btn-primary mb-2"
+                                        onclick="removeIngredient(event)">Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="description">Recipe Description</label>
-                    <textarea
-                            class="form-control"
-                            id="description"
-                            name="description"
-                            th:field="*{description}"
-                            rows="3">
-                </textarea>
+                <button class="btn btn-primary mb-2" type="button" onclick="addIngredient()">Add Ingredient
+                </button>
+                <div class="form-inline">
+                    <div class="form-group mb-2">
+                        <div id="procedures">
+                            <div th:each="procedure, procedureStatus : *{procedures}" class="procedure">
+                                <br>
+                                <input class="form-control mb-2" type="text"
+                                       th:field="*{procedures[__${procedureStatus.index}__].step}"
+                                       placeholder="Step" required>
+                                <input class="form-control mx-sm-3 mb-2" type="hidden"
+                                       th:field="*{procedures[__${procedureStatus.index}__].id}">
+                                <button type="button" class="remove-ingredient btn btn-primary mx-sm-3 mb-2"
+                                        onclick="removeProcedure(event)">Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button class="btn btn-primary mb-2" type="button" onclick="addProcedure()">Add Procedures
+                </button>
+                <br>
+                <button type="submit" class="btn btn-primary">Save Recipe</button>
             </form>
+            <script>
+                function addIngredient() {
+                    var ingredients = document.getElementById('ingredients');
+                    var index = ingredients.children.length;
+                    var ingredient = document.createElement('div');
+                    ingredient.classList.add('ingredient');
+                    ingredient.innerHTML = `
+            <br>
+            <br>
+            <input class="form-control mb-2" type="text" name="ingredients[${index}].ingredients" placeholder="Ingredient Name" required>
+            <br>
+            <input class="form-control mx-sm-3 mb-2" type="number" name="ingredients[${index}].quantity" placeholder="Quantity" required>
+            <br>
+            <input class="form-control mx-sm-3 mb-2" type="text" name="ingredients[${index}].unit" placeholder="Unit" required>
+            <br>
+            <input class="form-control mx-sm-3 mb-2" type="hidden" th:field="*{ingredients.id}" disabled>
+            <button class="btn btn-primary mb-2" type="button" class="remove-ingredient" th:href="@{/ingredient/{id}/delete(id=${ingredients.id})}>Remove</button>
+        `;
+                    ingredient.setAttribute("class", "form-group mb-3");
+                    ingredient.setAttribute("input", "form-control")
+                    ingredients.appendChild(ingredient);
+                }
+
+                function removeIngredient(event) {
+                    var ingredient = event.target.parentNode;
+                    ingredient.parentNode.removeChild(ingredient);
+                }
+
+                function addProcedure() {
+                    var procedures = document.getElementById('procedures');
+                    var index = procedures.children.length;
+                    var procedure = document.createElement('div');
+                    procedure.classList.add('procedure');
+                    procedure.innerHTML = `
+            <br>
+            <br>
+            <input class="form-control mb-2" type="text" name="procedures[${index}].step" placeholder="Step" required>
+            <button class="btn btn-primary mx-sm-3 mb-2" type="button" class="remove-ingredient" th:href="@{/ingredient/{id}/delete(id=${procedures.id})}">Remove</button>
+        `;
+                    procedure.setAttribute("class", "form-group mb-3");
+                    procedure.setAttribute("input", "form-control")
+                    procedures.appendChild(procedure);
+                }
+
+                function removeProcedure(event) {
+                    var procedure = event.target.parentNode;
+                    procedure.parentNode.removeChild(procedure);
+                }
+            </script>
         </div>
     </section>
 </main>

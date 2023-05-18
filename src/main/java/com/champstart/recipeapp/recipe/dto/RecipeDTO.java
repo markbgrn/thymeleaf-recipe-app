@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class RecipeDTO {
     private Long id;
     private String recipeTitle;
     private String recipeDescription;
+    private MultipartFile photo;
+    private String photoPath;
     private UserModel user;
     private Category category;
     private List<IngredientDTO> ingredients;

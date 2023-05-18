@@ -1,6 +1,9 @@
 package com.champstart.recipeapp.recipe.service.impl;
 
 import com.champstart.recipeapp.category.repository.CategoryRepository;
+import com.champstart.recipeapp.comment.dto.CommentDTO;
+import com.champstart.recipeapp.comment.dto.CommentMapper;
+import com.champstart.recipeapp.comment.model.CommentModel;
 import com.champstart.recipeapp.exception.NotFoundException;
 import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
 import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
@@ -16,6 +19,7 @@ import com.champstart.recipeapp.user.repository.UserRepository;
 import com.champstart.recipeapp.user.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +34,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final SecurityUtil securityUtil;
-
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository,
                              CategoryRepository categoryRepository, SecurityUtil securityUtil) {
@@ -39,7 +42,6 @@ public class RecipeServiceImpl implements RecipeService {
         this.categoryRepository = categoryRepository;
         this.securityUtil = securityUtil;
     }
-
     @Override
     public RecipeDTO getRecipeById(Long id) {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
@@ -49,8 +51,8 @@ public class RecipeServiceImpl implements RecipeService {
         }
         throw new NotFoundException("Recipe not found with ID: " + id);
     }
-
     @Override
+    @Transactional
     public void createRecipe(RecipeDTO recipeDTO) {
         Long user = securityUtil.getUserModel().getId();
         UserModel userId = userRepository.findById(user).get();
@@ -73,7 +75,6 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList()));
         recipeRepository.save(recipe);
     }
-
     @Override
     public List<RecipeDTO> findAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
@@ -81,26 +82,41 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(RecipeMapper::mapToRecipeDTO)
                 .collect(Collectors.toList());
     }
-
     @Override
+    @Transactional
     public void updateRecipe(RecipeDTO recipeDTO) {
         String email = SecurityUtil.getSessionUser();
         UserModel userModel = userRepository.findByEmail(email);
         Recipe recipe = mapToRecipeEntity(recipeDTO);
+        recipeDTO.getIngredients().forEach(ingredientDTO -> {
+            ingredientDTO.setRecipe(recipe);
+        });
+        recipeDTO.getProcedures().forEach(procedureDTO -> {
+            procedureDTO.setRecipe(recipe);
+        });
+        List<CommentDTO> comments = getRecipeById(recipeDTO.getId()).getComments();
         recipe.setUser(userModel);
+        recipe.setComments(comments.stream().map(commentDTO -> {
+            return CommentMapper.mapToCommentEntity(commentDTO);
+        }).collect(Collectors.toList()));
+        recipe.setIngredients(recipeDTO.getIngredients()
+                .stream()
+                .map(IngredientMapper::mapToIngredientEntity)
+                .collect(Collectors.toList()));
+        recipe.setProcedures(recipeDTO.getProcedures()
+                .stream()
+                .map(ProcedureMapper::mapToProcedureEntity)
+                .collect(Collectors.toList()));
         recipeRepository.save(recipe);
     }
-
     @Override
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
     }
-
     @Override
     public List<Recipe> searchRecipes(String recipeName) {
         return recipeRepository.findByRecipeTitleContainingIgnoreCase(recipeName);
     }
-
     @Override
     public List<RecipeDTO> findByUserId(Long id) {
         List<Recipe> recipes = recipeRepository.findByUserId(id);
@@ -108,6 +124,4 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(RecipeMapper::mapToRecipeDTO)
                 .collect(Collectors.toList());
     }
-
-
 }

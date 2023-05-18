@@ -18,7 +18,7 @@
         </div>
         <div th:each="recipe : ${recipes}" class="col-lg-6 mb-2">
           <div class="position-relative mb-3 " style="text-transform: uppercase;text-align: center">
-            <!-- <img class="img-fluid rounded-3 mb-3" th:src="${recipe.photoUrl}" alt="..."/> -->
+            <img class="img-fluid rounded-3 mb-3" th:src="@{/images/recipe/{photoPath}(photoPath=${recipe.photoPath})}" alt="..."/>
             <a th:text="${recipe.recipeTitle}" class="h4 text-decoration-none link-dark stretched-link"
                th:href="@{/recipes/{id}(id=${recipe.id})}"></a>
           </div>

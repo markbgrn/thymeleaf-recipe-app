@@ -10,7 +10,6 @@ public interface RecipeService {
     void createRecipe(RecipeDTO recipeDTO);
     List<RecipeDTO> findAllRecipes();
     void updateRecipe(RecipeDTO recipeDTO);
-
     void deleteRecipe(Long id);
 
     List<Recipe> searchRecipes(String recipeName);
