@@ -24,6 +24,14 @@ public class RecipeMapper {
                 .recipeTitle(recipeDTO.getRecipeTitle())
                 .recipeDescription(recipeDTO.getRecipeDescription())
                 .category(recipeDTO.getCategory())
+                .ingredients(recipeDTO.getIngredients()
+                        .stream()
+                        .map(IngredientMapper::mapToIngredientEntity)
+                        .collect(Collectors.toList()))
+                .procedures(recipeDTO.getProcedures()
+                        .stream()
+                        .map(ProcedureMapper::mapToProcedureEntity)
+                        .collect(Collectors.toList()))
                 .user(recipeDTO.getUser())
                 .build();
     }

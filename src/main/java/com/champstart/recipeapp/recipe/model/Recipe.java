@@ -29,15 +29,20 @@ public class Recipe {
     private String recipeTitle;
     private String recipeDescription;
     @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
     @JoinColumn(name = "category_id",nullable = false)
     private Category category;
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Ingredient> ingredients = new ArrayList<>();
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Procedure> procedures = new ArrayList<>();
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<CommentModel> comments = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
     private UserModel user;
 }

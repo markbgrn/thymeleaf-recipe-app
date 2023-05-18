@@ -2,6 +2,10 @@ package com.champstart.recipeapp.recipe.service.impl;
 
 import com.champstart.recipeapp.category.repository.CategoryRepository;
 import com.champstart.recipeapp.exception.NotFoundException;
+import com.champstart.recipeapp.ingredient.dto.IngredientDTO;
+import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
+import com.champstart.recipeapp.ingredient.model.Ingredient;
+import com.champstart.recipeapp.procedure.dto.mapper.ProcedureMapper;
 import com.champstart.recipeapp.recipe.dto.RecipeDTO;
 import com.champstart.recipeapp.recipe.dto.mapper.RecipeMapper;
 import com.champstart.recipeapp.recipe.model.Recipe;
@@ -50,8 +54,23 @@ public class RecipeServiceImpl implements RecipeService {
     public void createRecipe(RecipeDTO recipeDTO) {
         Long user = securityUtil.getUserModel().getId();
         UserModel userId = userRepository.findById(user).get();
+        Ingredient ingredient = new Ingredient();
         Recipe recipe = mapToRecipeEntity(recipeDTO);
+        recipeDTO.getIngredients().forEach(ingredientDTO -> {
+            ingredientDTO.setRecipe(recipe);
+        });
+        recipeDTO.getProcedures().forEach(procedureDTO -> {
+            procedureDTO.setRecipe(recipe);
+        });
         recipe.setUser(userId);
+        recipe.setIngredients(recipeDTO.getIngredients()
+                .stream()
+                .map(IngredientMapper::mapToIngredientEntity)
+                .collect(Collectors.toList()));
+        recipe.setProcedures(recipeDTO.getProcedures()
+                .stream()
+                .map(ProcedureMapper::mapToProcedureEntity)
+                .collect(Collectors.toList()));
         recipeRepository.save(recipe);
     }
 

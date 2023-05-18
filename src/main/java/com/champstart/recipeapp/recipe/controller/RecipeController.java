@@ -2,35 +2,37 @@ package com.champstart.recipeapp.recipe.controller;
 
 import com.champstart.recipeapp.category.dto.CategoryDTO;
 import com.champstart.recipeapp.category.service.CategoryService;
+import com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper;
+import com.champstart.recipeapp.ingredient.service.IngredientService;
 import com.champstart.recipeapp.recipe.dto.RecipeDTO;
 import com.champstart.recipeapp.recipe.model.Recipe;
 import com.champstart.recipeapp.recipe.service.RecipeService;
 import com.champstart.recipeapp.user.model.UserModel;
 import com.champstart.recipeapp.user.security.SecurityUtil;
 import com.champstart.recipeapp.user.service.UserService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RecipeController {
     private final RecipeService recipeService;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService, CategoryService categoryService) {
+    public RecipeController(RecipeService recipeService, UserService userService, CategoryService categoryService, IngredientService ingredientService) {
         this.recipeService = recipeService;
         this.userService = userService;
         this.categoryService = categoryService;
+        this.ingredientService = ingredientService;
     }
     @GetMapping("/home")
     public String listRecipes(Model model){
