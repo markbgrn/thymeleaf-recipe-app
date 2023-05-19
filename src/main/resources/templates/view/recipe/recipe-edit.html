@@ -70,7 +70,7 @@
                                 <input class="form-control mx-sm-3 mb-2" type="text"
                                        th:field="*{ingredients[__${ingredientStatus.index}__].unit}"
                                        placeholder="Unit" required>
-                                <input class="form-control mx-sm-3 mb-2" type="text"
+                                <input class="form-control mx-sm-3 mb-2" type="hidden"
                                        th:field="*{ingredients[__${ingredientStatus.index}__].id}">
                                 <button type="button" class="remove-ingredient btn btn-primary mb-2"
                                         onclick="removeIngredient(event)">Remove
