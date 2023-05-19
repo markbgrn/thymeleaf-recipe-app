@@ -5,7 +5,7 @@
 <html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout}">
 <head>
-    <title>Recipe Create</title>
+    <title>Recipe Details</title>
     <style>
         .user-info {
             display: flex;
@@ -66,6 +66,15 @@
                             <h2 class="card-title recipe-title" th:text="${recipe.recipeTitle}"></h2>
                             <div class="small text-muted recipe-description"
                                  th:text="${recipe.recipeDescription}"></div>
+                        </div>
+                        <div th:if="${!#strings.isEmpty(recipe.user.photoPath) || recipe.user.photoPath != null}" style="height: 50px; width: 50px">
+                            <img class="rounded img-thumbnail" style="border-radius: 100rem!important;" th:src="@{/images/profile/{photoPath}(photoPath=${recipe.user.photoPath})}" />
+                        </div>
+                        <div th:unless="${!#strings.isEmpty(recipe.user.photoPath) || recipe.user.photoPath != null}" style="height: 50px; width: 50px; background-color:#e9e9e9; border-radius: 100rem!important;">
+                        </div>
+                        <div class="name">
+                            <h6 class="card-title" th:text="|${#strings.capitalize(recipe.user.firstName)} ${#strings.capitalize(recipe.user.lastName)} |"></h6>
+<!--                            <p th:text="${#temporals.format(comment.createdOn , 'MMMM-dd-yyyy hh:mm:a') }"></p>-->
                         </div>
                     </div>
                     <div class="col-lg-4">
