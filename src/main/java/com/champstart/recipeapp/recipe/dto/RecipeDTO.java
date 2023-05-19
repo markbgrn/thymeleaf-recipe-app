@@ -30,7 +30,6 @@ public class RecipeDTO {
     private String photoPath;
     private UserModel user;
     private Category category;
-    @NotBlank(message = "Ingredients should not be empty.")
     private List<IngredientDTO> ingredients;
     private List<ProcedureDTO> procedures;
     private List<CommentDTO> comments;
