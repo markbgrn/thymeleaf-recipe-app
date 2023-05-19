@@ -4,6 +4,14 @@
         layout:decorate="~{/layout}">
 <head>
     <title>My Recipes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-px2nDO1n6TfqyFhCRbvLldxtJ9G/6he7cg8NQmGSGLN6S+o6bcwIkUuF9Tj8aXzvZAIIE9tWuH8MNz8NV1RG3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
@@ -15,14 +23,16 @@
             </div>
             <div class="row gx-5">
                 <div th:each="recipe : ${recipes}" class="col-lg-6 mb-2">
-                    <div class="position-relative mb-3 " style="text-transform: uppercase;text-align: center">
-                        <img class="img-fluid rounded-3 mb-3" th:src="@{/images/recipe/{photoPath}(photoPath=${recipe.photoPath})}" alt="..."/>
+                    <div class="position-relative mb-3">
+                        <img class="img-fluid rounded-3 mb-3 recipe-image" th:src="@{/images/recipe/{photoPath}(photoPath=${recipe.photoPath})}" alt="Recipe Image"/>
                         <a th:text="${recipe.recipeTitle}" class="h4 text-decoration-none link-dark stretched-link"
                            th:href="@{/recipes/{id}(id=${recipe.id})}"></a>
                     </div>
-                    <a class="btn btn-primary" th:href="@{/recipes/{id}(id=${recipe.id})}">View</a>
-                    <a class="btn btn-outline-secondary" th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
-                    <a class="btn btn-primary" th:href="@{/recipes/{id}/delete(id=${recipe.id})}">Delete</a>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" th:href="@{/recipes/{id}(id=${recipe.id})}">View</a>
+                        <a class="btn btn-outline-secondary" th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
+                        <a class="btn btn-primary" th:href="@{/recipes/{id}/delete(id=${recipe.id})}">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,5 +44,6 @@
         </div>
     </section>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js" integrity="sha512-p7gnTHifAGL3O8ZI1D8RlkyJNUKrajezwaL6t6MjOlM3ebIxS5BpB3QNm+Y6Kg8sdipRzRLQ6jriyQ1RX5vQcw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

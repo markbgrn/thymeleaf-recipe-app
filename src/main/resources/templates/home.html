@@ -1,9 +1,15 @@
-<html
-        xmlns:th="http://thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{/layout}">
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout}">
 <head>
     <title>Recipe List</title>
+    <style>
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
@@ -16,13 +22,15 @@
             <div class="row gx-5">
                 <div th:each="recipe : ${recipes}" class="col-lg-6 mb-2">
                     <div class="position-relative mb-3 " style="text-transform: uppercase;text-align: center">
-                        <img class="img-fluid rounded-3 mb-3" th:src="@{/images/recipe/{photoPath}(photoPath=${recipe.photoPath})}" alt="..."/>
+                        <img class="img-fluid rounded-3 mb-3 recipe-image"
+                             th:src="@{/images/recipe/{photoPath}(photoPath=${recipe.photoPath})}" alt="..."/>
                         <a th:text="${recipe.recipeTitle}" class="h4 text-decoration-none link-dark stretched-link"
                            th:href="@{/recipes/{id}(id=${recipe.id})}"></a>
                     </div>
                     <a class="btn btn-primary" th:href="@{/recipes/{id}(id=${recipe.id})}">View</a>
 
-                    <a th:if="${recipe.user.id == user.id}" class="btn btn-outline-secondary" th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
+                    <a th:if="${recipe.user.id == user.id}" class="btn btn-outline-secondary"
+                       th:href="@{/recipes/{id}/edit(id=${recipe.id})}">Edit</a>
                 </div>
             </div>
         </div>
