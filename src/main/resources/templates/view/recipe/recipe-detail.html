@@ -82,7 +82,7 @@
                                 <div class="card mb-6">
                                     <div class="card-header" style="text-transform: uppercase">Ingredients</div>
                                     <div class="card-body" th:each="ingredient : ${recipe.ingredients}">
-                                        <p th:text="|• ${ingredient.ingredients}|"></p>
+                                        <p th:text="|• ${#numbers.formatInteger(ingredient.quantity,0)}  ${ingredient.unit} of ${ingredient.ingredients}|"></p>
                                     </div>
                                 </div>
                             </div>
