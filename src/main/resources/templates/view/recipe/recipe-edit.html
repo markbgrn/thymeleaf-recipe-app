@@ -13,9 +13,11 @@
             <form role="form" method="post" th:action="@{/recipes/{id}/edit(id=${recipe.id})}" th:object="${recipe}"
                   enctype="multipart/form-data" id="recipe-form">
                 <div class="form-row">
-                    <label for="photo">Recipe Photo</label>
-                    <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
-                           th:field="*{photo}" required/>
+                    <div class="form-group col-md-6">
+                        <label for="photo">Recipe Photo</label>
+                        <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
+                               th:field="*{photo}" required/>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -27,7 +29,8 @@
                                 name="recipeTitle"
                                 th:field="*{recipeTitle}"
                                 placeholder="Recipe Title">
-                        <p th:if="${#fields.hasErrors('recipeTitle')}" class="text-danger" th:errors="*{recipeTitle}"></p>
+                        <p th:if="${#fields.hasErrors('recipeTitle')}" class="text-danger"
+                           th:errors="*{recipeTitle}"></p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -40,7 +43,8 @@
                                 th:field="*{recipeDescription}"
                                 rows="3">
                          </textarea>
-                        <p th:if="${#fields.hasErrors('recipeDescription')}" class="text-danger" th:errors="*{recipeDescription}"></p>
+                        <p th:if="${#fields.hasErrors('recipeDescription')}" class="text-danger"
+                           th:errors="*{recipeDescription}"></p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -70,7 +74,7 @@
                                 <input class="form-control mx-sm-3 mb-2" type="text"
                                        th:field="*{ingredients[__${ingredientStatus.index}__].unit}"
                                        placeholder="Unit" required>
-                                <input class="form-control mx-sm-3 mb-2" type="text" disabled
+                                <input class="form-control mx-sm-3 mb-2" type="hidden" disabled
                                        th:field="*{ingredients[__${ingredientStatus.index}__].id}">
                                 <button type="button" class="remove-ingredient btn btn-primary mb-2"
                                         onclick="removeIngredient(event)">Remove
@@ -89,7 +93,7 @@
                                 <input class="form-control mb-2" type="text"
                                        th:field="*{procedures[__${procedureStatus.index}__].step}"
                                        placeholder="Step" required>
-                                <input class="form-control mx-sm-3 mb-2" type="hidden"
+                                <input class="form-control mx-sm-3 mb-2" type="hidden" disabled
                                        th:field="*{procedures[__${procedureStatus.index}__].id}">
                                 <button type="button" class="remove-ingredient btn btn-primary mx-sm-3 mb-2"
                                         onclick="removeProcedure(event)">Remove
