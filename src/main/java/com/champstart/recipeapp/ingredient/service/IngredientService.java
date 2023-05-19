@@ -5,4 +5,5 @@ import com.champstart.recipeapp.ingredient.model.Ingredient;
 
 public interface IngredientService {
     void createIngredient(Long id, IngredientDTO ingredientDTO);
+    void deleteIngredient(Long id);
 }

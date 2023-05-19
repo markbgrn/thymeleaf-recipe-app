@@ -151,11 +151,10 @@ public class UserController {
     }
 
     @PostMapping("/edit-profile")
-    public String editProfile(
-            @Valid @ModelAttribute("editProfileDto") EditProfileDto editProfileDto,
-            BindingResult result,
-            @RequestParam MultipartFile photo,
-            Model model) {
+    public String editProfile(@Valid @ModelAttribute("editProfileDto") EditProfileDto editProfileDto,
+                              BindingResult result,
+                              @RequestParam MultipartFile photo,
+                              Model model) {
 
         if (result.hasErrors()){
             model.addAttribute("editProfileDto", editProfileDto);

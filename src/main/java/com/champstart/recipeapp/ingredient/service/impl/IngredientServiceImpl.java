@@ -35,4 +35,9 @@ public class IngredientServiceImpl implements IngredientService {
         recipe.ifPresent(ingredient::setRecipe);
         ingredientRepository.save(ingredient);
     }
+
+    @Override
+    public void deleteIngredient(Long id) {
+        ingredientRepository.deleteById(id);
+    }
 }

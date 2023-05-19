@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.champstart.recipeapp.comment.dto.CommentMapper.mapToCommentEntity;
@@ -59,17 +62,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-@Transactional
+    @Transactional
     @Override
-    public void updateComment(CommentDTO commentDTO) {
-        CommentModel commentModel = commentRepository.findById(commentDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
-
-        commentModel.setComment(commentDTO.getComment());
-        commentModel.setUpdatedOn(LocalDateTime.now());
-
-        commentRepository.save(commentModel);
-
+    public void updateComment(Long id, CommentDTO commentDTO) {
+        Optional<CommentModel> optionalComment = commentRepository.findById(id);
+        if (optionalComment.isPresent()) {
+            CommentModel comment = optionalComment.get();
+            comment.setComment(commentDTO.getComment());
+            commentRepository.save(comment);
+        } else {
+            throw new IllegalArgumentException("Comment not found with id: " + id);
+        }
     }
 
     @Transactional
@@ -97,5 +100,15 @@ public class CommentServiceImpl implements CommentService {
                 .map(CommentMapper :: mapToCommentDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<CommentDTO> getCommentById(Long id) {
+        CommentModel comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
+
+        return Collections.singletonList(CommentMapper.mapToCommentDTO(comment));
+    }
+
+
 
 }

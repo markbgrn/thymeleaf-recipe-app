@@ -13,6 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUtil {
     public static final String PROFILE_PHOTOS_PATH = "src/main/resources/static/images/profile";
+    public static final String RECIPE_PHOTOS_PATH = "src/main/resources/static/images/recipe/";
 
     public static boolean saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile)  {

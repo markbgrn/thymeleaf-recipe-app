@@ -26,23 +26,16 @@ public class CommentModel {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "comment_id")
     private Long id;
-
     @Column(name = "recipe_comment", length = 4000, nullable = false)
     private String comment;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel users;
-
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "recipe_id", nullable = false)
+    @JoinColumn(name = "recipe_id", nullable = true)
     private Recipe recipe;
-
-    // Add profile picture association here
-
     @CreationTimestamp
     private LocalDateTime createdOn;
-
     @UpdateTimestamp
     private LocalDateTime updatedOn;
 }

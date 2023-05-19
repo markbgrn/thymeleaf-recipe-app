@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 import static com.champstart.recipeapp.ingredient.dto.mapper.IngredientMapper.mapToIngredientDTO;
 import static com.champstart.recipeapp.procedure.dto.mapper.ProcedureMapper.mapToProcedureDTO;
-
 public class RecipeMapper {
     public static Recipe mapToRecipeEntity(RecipeDTO recipeDTO){
         return Recipe.builder()
@@ -24,6 +23,7 @@ public class RecipeMapper {
                 .recipeTitle(recipeDTO.getRecipeTitle())
                 .recipeDescription(recipeDTO.getRecipeDescription())
                 .category(recipeDTO.getCategory())
+                .photoPath(recipeDTO.getPhotoPath())
                 .ingredients(recipeDTO.getIngredients()
                         .stream()
                         .map(IngredientMapper::mapToIngredientEntity)
@@ -40,6 +40,7 @@ public class RecipeMapper {
                 .id(recipe.getId())
                 .recipeTitle(recipe.getRecipeTitle())
                 .recipeDescription(recipe.getRecipeDescription())
+                .photoPath(recipe.getPhotoPath())
                 .user(recipe.getUser())
                 .category(recipe.getCategory())
                 .ingredients(recipe.getIngredients()
