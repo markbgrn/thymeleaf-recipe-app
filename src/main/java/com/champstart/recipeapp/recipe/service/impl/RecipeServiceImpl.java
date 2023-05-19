@@ -57,6 +57,9 @@ public class RecipeServiceImpl implements RecipeService {
         Long user = securityUtil.getUserModel().getId();
         UserModel userId = userRepository.findById(user).get();
         Ingredient ingredient = new Ingredient();
+        if (recipeDTO.getIngredients() == null){
+            throw new NullPointerException("Ingredients should not be empty.");
+        }
         Recipe recipe = mapToRecipeEntity(recipeDTO);
         recipeDTO.getIngredients().forEach(ingredientDTO -> {
             ingredientDTO.setRecipe(recipe);

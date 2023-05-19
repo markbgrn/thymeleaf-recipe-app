@@ -13,12 +13,16 @@
             <form role="form" method="post" th:action="@{/recipes/new}" th:object="${recipe}"
                   enctype="multipart/form-data">
                 <div class="form-row">
-                    <label for="photo">Recipe Photo</label>
-                    <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
-                           th:field="*{photo}"/>
+                    <div class="form-group col-md-6">
+                        <span style="color: red">*</span>
+                        <label for="photo">Recipe Photo</label>
+                        <input class="form-control" id="photo" type="file" name="photo" accept="image/png, image/jpeg"
+                               th:field="*{photo}" required/>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
+                        <span style="color: red">*</span>
                         <label for="recipeTitle">Recipe Title</label>
                         <input
                                 type="text"
@@ -27,11 +31,13 @@
                                 name="recipeTitle"
                                 th:field="*{recipeTitle}"
                                 placeholder="Recipe Title">
-                        <p th:if="${#fields.hasErrors('recipeTitle')}" class="text-danger" th:errors="*{title}"></p>
+                        <p th:if="${#fields.hasErrors('recipeTitle')}" class="text-danger"
+                           th:errors="*{recipeTitle}"></p>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
+                        <span style="color: red">*</span>
                         <label for="recipeDescription">Description</label>
                         <textarea
                                 class="form-control"
@@ -40,10 +46,13 @@
                                 th:field="*{recipeDescription}"
                                 rows="3">
                          </textarea>
+                        <p th:if="${#fields.hasErrors('recipeDescription')}" class="text-danger"
+                           th:errors="*{recipeDescription}"></p>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group mb-6">
+                        <span style="color: red">*</span>
                         <label for="category">Category</label>
                         <select class="form-control"
                                 id="category"

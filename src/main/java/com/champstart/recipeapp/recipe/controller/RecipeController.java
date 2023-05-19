@@ -88,8 +88,8 @@ public class RecipeController {
     }
     @PostMapping("/recipes/new")
     public String saveRecipe(@Valid @ModelAttribute("recipe") RecipeDTO recipeDTO,
-                             @RequestParam MultipartFile photo,
                              BindingResult bindingResult,
+                             @RequestParam MultipartFile photo,
                              Model model){
         if (bindingResult.hasErrors()){
             List<CategoryDTO> categories = categoryService.findAllCategories();
