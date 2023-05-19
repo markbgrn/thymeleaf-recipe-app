@@ -143,6 +143,7 @@ public class RecipeController {
         if(result.hasErrors()) {
             List<CategoryDTO> categories = categoryService.findAllCategories();
             model.addAttribute("categories", categories);
+            model.addAttribute("recipe", recipeDto);
             return "view/recipe/recipe-edit";
         }
         String fileName = "";
